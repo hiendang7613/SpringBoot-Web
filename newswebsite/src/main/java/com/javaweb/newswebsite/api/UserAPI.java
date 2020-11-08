@@ -1,12 +1,13 @@
-package com.laptrinhjavaweb.api;
+package com.javaweb.newswebsite.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laptrinhjavaweb.dto.UserDTO;
-import com.laptrinhjavaweb.service.IUserService;
+import com.javaweb.newswebsite.dto.UserDTO;
+import com.javaweb.newswebsite.service.IUserService;
+
 
 @RestController
 

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class NewAPI {
-    @Autowired
+   /* @Autowired
     private INewService newService;
 
     @GetMapping(value = "/new")
@@ -59,5 +59,5 @@ public class NewAPI {
     public ResponseEntity<?> deleteNew(@RequestBody Long[] ids) {
         newService.delete(ids);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
+    }*/
 }

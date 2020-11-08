@@ -1,9 +1,9 @@
-package com.laptrinhjavaweb.converter;
+package com.javaweb.newswebsite.converter;
 
 import org.springframework.stereotype.Component;
 
-import com.laptrinhjavaweb.dto.RoleDTO;
-import com.laptrinhjavaweb.entity.RoleEntity;
+import com.javaweb.newswebsite.dto.RoleDTO;
+import com.javaweb.newswebsite.entity.RoleEntity;
 
 @Component
 public class RoleConverter {

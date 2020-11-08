@@ -1,10 +1,12 @@
-package com.laptrinhjavaweb.service;
+package com.javaweb.newswebsite.service;
 
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import com.laptrinhjavaweb.dto.UserDTO;
+import com.javaweb.newswebsite.dto.UserDTO;
+
+
 
 public interface IUserService {
 	UserDTO save(UserDTO userDto);

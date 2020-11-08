@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb.converter;
+package com.javaweb.newswebsite.converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.laptrinhjavaweb.dto.RoleDTO;
-import com.laptrinhjavaweb.dto.UserDTO;
-import com.laptrinhjavaweb.entity.RoleEntity;
-import com.laptrinhjavaweb.entity.UserEntity;
-import com.laptrinhjavaweb.repository.RoleRepository;
+import com.javaweb.newswebsite.dto.RoleDTO;
+import com.javaweb.newswebsite.dto.UserDTO;
+import com.javaweb.newswebsite.entity.RoleEntity;
+import com.javaweb.newswebsite.entity.UserEntity;
+import com.javaweb.newswebsite.repo.RoleRepository;
 
 @Component
 public class UserConverter {

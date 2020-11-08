@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb.dto;
+package com.javaweb.newswebsite.dto;
 
 import java.util.List;
 

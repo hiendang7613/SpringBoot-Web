@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb.service.impl;
+package com.javaweb.newswebsite.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laptrinhjavaweb.converter.UserConverter;
-import com.laptrinhjavaweb.dto.UserDTO;
-import com.laptrinhjavaweb.entity.RoleEntity;
-import com.laptrinhjavaweb.entity.UserEntity;
-import com.laptrinhjavaweb.repository.RoleRepository;
-import com.laptrinhjavaweb.repository.UserRepository;
-import com.laptrinhjavaweb.service.IUserService;
+import com.javaweb.newswebsite.converter.UserConverter;
+import com.javaweb.newswebsite.dto.UserDTO;
+import com.javaweb.newswebsite.entity.RoleEntity;
+import com.javaweb.newswebsite.entity.UserEntity;
+import com.javaweb.newswebsite.repo.RoleRepository;
+import com.javaweb.newswebsite.repo.UserRepository;
+import com.javaweb.newswebsite.service.IUserService;
 
 @Service
 public class UserService implements IUserService {
@@ -30,8 +30,8 @@ public class UserService implements IUserService {
 	@Override
 	public UserDTO save(UserDTO userDto) {
 		UserEntity newUserEntity = new UserEntity();
-		if(userDto.getId() != 0) { //update
-			UserEntity oldUserEntity = userRepository.findOne(userDto.getId());
+		if(userDto.getId() != null) { //update
+			UserEntity oldUserEntity = userRepository.findUserById(userDto.getId()).get();
 			newUserEntity = userConverter.toEntity(userDto, oldUserEntity);
 		}
 		else { //insert

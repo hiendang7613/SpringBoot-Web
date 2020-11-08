@@ -1,11 +1,11 @@
-package com.laptrinhjavaweb.repository;
+package com.javaweb.newswebsite.repo;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.laptrinhjavaweb.dto.RoleDTO;
-import com.laptrinhjavaweb.entity.RoleEntity;
+import com.javaweb.newswebsite.dto.RoleDTO;
+import com.javaweb.newswebsite.entity.RoleEntity;
 
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 	//RoleEntity findAll(List<RoleDTO> listRole);

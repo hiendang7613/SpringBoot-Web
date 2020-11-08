@@ -1,4 +1,4 @@
-package com.laptrinhjavaweb.dto;
+package com.javaweb.newswebsite.dto;
 
 public class RoleDTO extends AbstractDTO<RoleDTO> {
 	private String name;
