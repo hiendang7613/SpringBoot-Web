@@ -11,13 +11,21 @@ public class UserDTO extends AbstractDTO<UserDTO> {
 	private String imageUrl;
 	private String intro;
 	private Integer status;
+	private String email;
 	private List<RoleDTO> role;
-	private String roleCode;
+	private String[] roleCode;
 	
-	public String getRoleCode() {
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String[] getRoleCode() {
 		return roleCode;
 	}
-	public void setRoleCode(String roleCode) {
+	public void setRoleCode(String[] roleCode) {
 		this.roleCode = roleCode;
 	}
 	public String getUserName() {

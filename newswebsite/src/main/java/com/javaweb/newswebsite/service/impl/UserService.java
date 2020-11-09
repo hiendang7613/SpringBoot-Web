@@ -17,37 +17,35 @@ import com.javaweb.newswebsite.service.IUserService;
 
 @Service
 public class UserService implements IUserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private UserConverter userConverter;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Override
 	public UserDTO save(UserDTO userDto) {
 		UserEntity newUserEntity = new UserEntity();
-		if(userDto.getId() != null) { //update
+		if (userDto.getId() != null) { // update
 			UserEntity oldUserEntity = userRepository.findUserById(userDto.getId()).get();
 			newUserEntity = userConverter.toEntity(userDto, oldUserEntity);
-		}
-		else { //insert
+		} else { // insert
 			newUserEntity = userConverter.toEntity(userDto);
 		}
-		//List<RoleEntity> roleEntity = (List<RoleEntity>) roleRepository.findAll(userDto.getRole());
-		//newUserEntity.setRoles(roleEntity);
 		newUserEntity = userRepository.save(newUserEntity);
-		
 		return userConverter.toDTO(newUserEntity);
 	}
 
 	@Override
 	public void delete(long[] ids) {
-		// TODO Auto-generated method stub
-		
+		for (long items : ids) {
+			userRepository.deleteById(items);
+		}
+
 	}
 
 	@Override

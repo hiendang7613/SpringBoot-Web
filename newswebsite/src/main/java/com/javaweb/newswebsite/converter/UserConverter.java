@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.javaweb.newswebsite.dto.RoleDTO;
@@ -25,13 +26,19 @@ public class UserConverter {
 		userEntity.setPassword(userDto.getPassword());
 		userEntity.setFullName(userDto.getFullName());
 		userEntity.setJobTitle(userDto.getJobTitle());
+		userEntity.setEmail(userDto.getEmail());
 		userEntity.setPhone(userDto.getPhone());
 		userEntity.setImageUrl(userDto.getImageUrl());
 		userEntity.setIntro(userDto.getIntro());
 		userEntity.setStatus(userDto.getStatus());
-	
-		List<RoleEntity> enties= new ArrayList<>();
-		enties.add(roleRepository.findOneByCode(userDto.getRoleCode()));
+
+		List<RoleEntity> enties = new ArrayList<RoleEntity>();
+		for (String item:userDto.getRoleCode()) {
+			
+			 enties.add(roleRepository.findByCode(item).get());
+		}
+
+		// enties.add(roleRepository.findOneByCode(userDto.getRoleCode()));
 		
 		userEntity.setRoles(enties);
 		return userEntity;
@@ -49,6 +56,7 @@ public class UserConverter {
 		userDto.setPhone(userEntity.getPhone());
 		userDto.setImageUrl(userEntity.getImageUrl());
 		userDto.setIntro(userEntity.getIntro());
+		userDto.setEmail(userEntity.getEmail());
 		userDto.setCreatedBy(userEntity.getCreatedBy());
 		userDto.setCreatedDate(userEntity.getCreatedDate());
 		userDto.setModifiedBy(userEntity.getModifiedBy());
@@ -71,9 +79,19 @@ public class UserConverter {
 		userEntity.setFullName(userDto.getFullName());
 		userEntity.setJobTitle(userDto.getJobTitle());
 		userEntity.setPhone(userDto.getPhone());
+		userEntity.setEmail(userDto.getEmail());
 		userEntity.setImageUrl(userDto.getImageUrl());
 		userEntity.setIntro(userDto.getIntro());
 		userEntity.setStatus(userDto.getStatus());
+		List<RoleEntity> enties= new ArrayList<>();
+		/*
+		 * for(RoleDTO dto: userDto.getRole()) {
+		 * //enties.add(roleConvert.toEntity(dto));
+		 * enties.add(roleConvert.toEntity(dto)); }
+		 */
+	//	enties.add(roleRepository.findOneByCode(userDto.getRoleCode()));
+		
+		userEntity.setRoles(enties);
 		return userEntity;
 	}
 }
