@@ -50,14 +50,18 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<UserDTO> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		List<UserDTO> userDTO = new ArrayList<>();
+		List<UserEntity> userEntity = userRepository.findAll(pageable).getContent();
+		for(UserEntity item : userEntity) {
+			UserDTO dto = userConverter.toDTO(item);
+			userDTO.add(dto);
+		}
+		return userDTO;
 	}
 
 	@Override
 	public int totalUser() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) userRepository.count();
 	}
 
 }

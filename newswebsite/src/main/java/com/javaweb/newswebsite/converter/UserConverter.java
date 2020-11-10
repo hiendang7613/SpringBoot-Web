@@ -18,10 +18,10 @@ public class UserConverter {
 	@Autowired
 	private RoleRepository roleRepository;
 	RoleConverter roleConvert = new RoleConverter();
-	
+
 	public UserEntity toEntity(UserDTO userDto) {
 		UserEntity userEntity = new UserEntity();
-		
+
 		userEntity.setUserName(userDto.getUserName());
 		userEntity.setPassword(userDto.getPassword());
 		userEntity.setFullName(userDto.getFullName());
@@ -33,20 +33,16 @@ public class UserConverter {
 		userEntity.setStatus(userDto.getStatus());
 
 		List<RoleEntity> enties = new ArrayList<RoleEntity>();
-		for (String item:userDto.getRoleCode()) {
-			
-			 enties.add(roleRepository.findByCode(item).get());
+		for (String item : userDto.getRoleCode()) {
+			enties.add(roleRepository.findByCode(item).get());
 		}
-
-		// enties.add(roleRepository.findOneByCode(userDto.getRoleCode()));
-		
 		userEntity.setRoles(enties);
 		return userEntity;
 	}
-	
+
 	public UserDTO toDTO(UserEntity userEntity) {
 		UserDTO userDto = new UserDTO();
-		if(userEntity.getId() != 0) {
+		if (userEntity.getId() != 0) {
 			userDto.setId(userEntity.getId());
 		}
 		userDto.setUserName(userEntity.getUserName());
@@ -62,18 +58,18 @@ public class UserConverter {
 		userDto.setModifiedBy(userEntity.getModifiedBy());
 		userDto.setModifiedDate(userEntity.getModifiedDate());
 		userDto.setStatus(userEntity.getStatus());
-		List<RoleDTO> roleDTOS= new ArrayList<RoleDTO>();
-		if(userEntity.getRoles() != null) {
-			for(RoleEntity entity:userEntity.getRoles()) {
+		List<RoleDTO> roleDTOS = new ArrayList<RoleDTO>();
+		if (userEntity.getRoles() != null) {
+			for (RoleEntity entity : userEntity.getRoles()) {
 				roleDTOS.add(roleConvert.toDTO(entity));
 			}
 			userDto.setRole(roleDTOS);
 		}
 		return userDto;
 	}
-	
+
 	public UserEntity toEntity(UserDTO userDto, UserEntity userEntity) {
-		
+
 		userEntity.setUserName(userDto.getUserName());
 		userEntity.setPassword(userDto.getPassword());
 		userEntity.setFullName(userDto.getFullName());
@@ -83,14 +79,11 @@ public class UserConverter {
 		userEntity.setImageUrl(userDto.getImageUrl());
 		userEntity.setIntro(userDto.getIntro());
 		userEntity.setStatus(userDto.getStatus());
-		List<RoleEntity> enties= new ArrayList<>();
-		/*
-		 * for(RoleDTO dto: userDto.getRole()) {
-		 * //enties.add(roleConvert.toEntity(dto));
-		 * enties.add(roleConvert.toEntity(dto)); }
-		 */
-	//	enties.add(roleRepository.findOneByCode(userDto.getRoleCode()));
+		List<RoleEntity> enties = new ArrayList<>();
 		
+		for(String item : userDto.getRoleCode()) {
+			enties.add(roleRepository.findByCode(item).get());
+		}
 		userEntity.setRoles(enties);
 		return userEntity;
 	}
