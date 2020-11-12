@@ -12,7 +12,9 @@ public class HttpTraceActuatorConfiguration {
 
     @Bean
     public HttpTraceRepository httpTraceRepository() {
-        return new InMemoryHttpTraceRepository();
+        InMemoryHttpTraceRepository httptraces=new InMemoryHttpTraceRepository();
+        httptraces.setCapacity(200);
+        return httptraces;
     }
 
 }
