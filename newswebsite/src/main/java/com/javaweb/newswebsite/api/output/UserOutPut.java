@@ -12,7 +12,15 @@ public class UserOutPut {
 	private String sortName;
 	private String sortBy;
 	private int totalUser;
+	private String keyword;
 	
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 	public String getSortName() {
 		return sortName;
 	}

@@ -2,6 +2,7 @@ package com.javaweb.newswebsite.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -63,5 +64,19 @@ public class UserService implements IUserService {
 	public int totalUser() {
 		return (int) userRepository.count();
 	}
+
+	@Override
+	public List<UserDTO> findByKeyWord(String keyword) {
+		List<UserDTO> userDTO = new ArrayList<>();
+		List<UserEntity> userEntity = userRepository.search(keyword);
+		if(keyword != null) {
+			for(UserEntity item : userEntity) {
+				UserDTO dto = userConverter.toDTO(item);
+				userDTO.add(dto);
+			}
+		}
+		return userDTO;
+	}
+
 
 }
