@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -65,6 +66,17 @@ public class NewService implements INewService {
     @Override
     public int totalItem() {
         return (int) newRepository.count();
+    }
+
+    @Override
+    public List<NewDTO> findAllByCreatedDateBetween(Date publicationTimeStart, Date publicationTimeEnd) {
+        List<NewDTO> results = new ArrayList<>();
+        List<NewEntity> entities = newRepository.findAllByCreatedDateBetween(publicationTimeStart,publicationTimeEnd);
+        for (NewEntity item: entities) {
+            NewDTO newDTO = newConverter.toDTO(item);
+            results.add(newDTO);
+        }
+        return results;
     }
 
 
