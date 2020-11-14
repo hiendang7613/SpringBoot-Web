@@ -1,5 +1,6 @@
 package com.javaweb.newswebsite.api.output;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +14,23 @@ public class UserOutPut {
 	private String sortBy;
 	private int totalUser;
 	private String keyword;
+	private Date startdate;
+	private Date enddate;
 	
 	
+	
+	public Date getStartdate() {
+		return startdate;
+	}
+	public void setStartdate(Date startdate) {
+		this.startdate = startdate;
+	}
+	public Date getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
+	}
 	public String getKeyword() {
 		return keyword;
 	}
