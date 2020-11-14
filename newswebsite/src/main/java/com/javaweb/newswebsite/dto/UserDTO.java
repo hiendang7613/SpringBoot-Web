@@ -14,7 +14,14 @@ public class UserDTO extends AbstractDTO<UserDTO> {
 	private String email;
 	private List<RoleDTO> role;
 	private String[] roleCode;
+	private String registerRole;
 	
+	public String getRegisterRole() {
+		return registerRole;
+	}
+	public void setRegisterRole(String registerRole) {
+		this.registerRole = registerRole;
+	}
 	public String getEmail() {
 		return email;
 	}

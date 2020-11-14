@@ -86,5 +86,19 @@ public class UserService implements IUserService {
 		return userDTO;
 	}
 
+	@Override
+	public UserDTO register(UserDTO userDto) {
+		UserEntity newUserEntity = new UserEntity();
+		if (userDto.getId() != null) { // update
+			UserEntity oldUserEntity = userRepository.findUserById(userDto.getId()).get();
+			newUserEntity = userConverter.registerToEntity(userDto, oldUserEntity);
+		} else { // insert
+			newUserEntity = userConverter.registerToEntity(userDto);
+		}
+		newUserEntity = userRepository.save(newUserEntity);
+		return userConverter.toDTO(newUserEntity);
+		
+	}
+
 
 }

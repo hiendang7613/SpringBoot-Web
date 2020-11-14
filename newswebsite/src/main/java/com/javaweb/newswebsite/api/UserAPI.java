@@ -109,4 +109,9 @@ public class UserAPI {
 		userOut.setTotalUser(userOut.getListUser().size());
 		return userOut;
 	}
+	
+	@PostMapping(value = "/user/register")
+	public UserDTO registerUser(@RequestBody UserDTO model) {
+		return service.register(model);
+	}
 }

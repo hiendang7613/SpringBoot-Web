@@ -33,7 +33,7 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "roleid"))
     private List<RoleEntity> roles = new ArrayList<>();
 
-    public String getUserName() {
+	public String getUserName() {
         return userName;
     }
 
