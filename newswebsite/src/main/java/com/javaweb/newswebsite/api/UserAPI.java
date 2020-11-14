@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.javaweb.newswebsite.dto.NewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -80,15 +81,11 @@ public class UserAPI {
 
 		return userOutPut;
 	}
-	  
+	@GetMapping(value = "/user/{id}")
+	public UserDTO getEmployeeById(@PathVariable("id") Long id){
+		return service.findById(id);
+	}
 	
-//	@GetMapping(value = "/user/search")
-//	public UserOutPut searchByKey(@RequestParam("keyword") String keyword, HttpServletRequest request) {
-//		UserOutPut userOutPut = new UserOutPut();
-//	//	userOutPut.setListUser(service.findByKeyWord(keyword));
-//		userOutPut.setTotalUser(service.totalUser());
-//		return userOutPut;
-//	}
 	
 	@GetMapping(value = "/user/statistics")
 	public UserOutPut statistics(@RequestParam("startdate") String startdate,
