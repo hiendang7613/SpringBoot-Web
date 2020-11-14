@@ -85,7 +85,7 @@ public class UserAPI {
 	public UserDTO getEmployeeById(@PathVariable("id") Long id){
 		return service.findById(id);
 	}
-	
+
 	
 	@GetMapping(value = "/user/statistics")
 	public UserOutPut statistics(@RequestParam("startdate") String startdate,

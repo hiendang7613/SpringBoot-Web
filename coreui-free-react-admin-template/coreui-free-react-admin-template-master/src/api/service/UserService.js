@@ -1,25 +1,25 @@
 import Axios from "axios";
 import { API_URL } from "../../Constants.js"
-class EmployeeDataService {
-  retrieveAllEmployees(name) {
+class UserDataService {
+  retrieveAllUsers() {
    // console.log("executed service");
-    return Axios.get(`${API_URL}/users/`);
+    return Axios.get(`${API_URL}/user?page=1&limit=200`);
   }
-  retrieveEmployee(name,id) {
+  retrieveEmployee(id) {
   //  console.log("executed service");
-    return Axios.get(`${API_URL}/employee/find/${id}`);
+    return Axios.get(`${API_URL}/user/${id}`);
   }
-  deleteEmployee(username, id) {
+  deleteEmployee(id) {
    // console.log("executed service");
-    return Axios.delete(`${API_URL}/employee/delete/${id}`);
+    return Axios.delete(`${API_URL}/user`,id);
   }
-  updateEmployee(username, id,employee) {
+  updateEmployee(user) {
     // console.log("executed service");
-     return Axios.put(`${API_URL}/employee/update`,employee);
+     return Axios.put(`${API_URL}/user`,user);
    }
-   createEmployee(username,employee) {
+   createEmployee(employee) {
     // console.log("executed service");
-     return Axios.post(`${API_URL}/employee/add`,employee);
+     return Axios.post(`${API_URL}/user`,user);
    }
 }
-export default new EmployeeDataService();
+export default new UserDataService();
