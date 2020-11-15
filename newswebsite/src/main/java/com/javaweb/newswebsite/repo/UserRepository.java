@@ -22,4 +22,5 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
             nativeQuery = true )
     Page<UserEntity> search(String keyword,Pageable pageable);
     List<UserEntity> findAllByCreatedDateBetween(Date startDate, Date endDate);
+    Optional<UserEntity> findUserByUserNameAndPassword(String username, String password);
 }

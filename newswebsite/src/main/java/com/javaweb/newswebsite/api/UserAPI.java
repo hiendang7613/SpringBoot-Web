@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.expression.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -112,6 +114,19 @@ public class UserAPI {
 	
 	@PostMapping(value = "/user/register")
 	public UserDTO registerUser(@RequestBody UserDTO model) {
+		model.setRoleCode(new String[] {"khach-hang"});
 		return service.register(model);
+	}
+	
+	@GetMapping(value = "/user/login")
+	public UserOutPut loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password,
+			HttpServletRequest request) {
+
+		UserOutPut userOut = new UserOutPut();
+		if (service.login(userName, password) != null) {
+			userOut.setUserDto(service.login(userName, password));
+			return userOut;
+		}
+		return null;
 	}
 }

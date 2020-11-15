@@ -88,42 +88,6 @@ public class UserConverter {
 		return userEntity;
 	}
 	
-	public UserEntity registerToEntity(UserDTO userDto) {
-		UserEntity userEntity = new UserEntity();
-
-		userEntity.setUserName(userDto.getUserName());
-		userEntity.setPassword(userDto.getPassword());
-		userEntity.setFullName(userDto.getFullName());
-		userEntity.setJobTitle(userDto.getJobTitle());
-		userEntity.setEmail(userDto.getEmail());
-		userEntity.setPhone(userDto.getPhone());
-		userEntity.setImageUrl(userDto.getImageUrl());
-		userEntity.setIntro(userDto.getIntro());
-		userEntity.setStatus(userDto.getStatus());
-		List<RoleEntity> enties = new ArrayList<RoleEntity>();
-		enties.add(roleRepository.findByCode("khach-hang").get());
-		userEntity.setRoles(enties);
-		return userEntity;
-	}
 	
-	public UserEntity registerToEntity(UserDTO userDto, UserEntity userEntity) {
-
-		userEntity.setUserName(userDto.getUserName());
-		userEntity.setPassword(userDto.getPassword());
-		userEntity.setFullName(userDto.getFullName());
-		userEntity.setJobTitle(userDto.getJobTitle());
-		userEntity.setPhone(userDto.getPhone());
-		userEntity.setEmail(userDto.getEmail());
-		userEntity.setImageUrl(userDto.getImageUrl());
-		userEntity.setIntro(userDto.getIntro());
-		userEntity.setStatus(userDto.getStatus());
-		List<RoleEntity> enties = new ArrayList<>();
-		
-		
-		enties.add(roleRepository.findByCode("khach-hang").get());
-		
-		userEntity.setRoles(enties);
-		return userEntity;
-	}
 	
 }

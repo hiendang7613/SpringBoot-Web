@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 import com.javaweb.newswebsite.converter.UserConverter;
@@ -13,6 +14,7 @@ import com.javaweb.newswebsite.dto.UserDTO;
 import com.javaweb.newswebsite.entity.UserEntity;
 import com.javaweb.newswebsite.repo.UserRepository;
 import com.javaweb.newswebsite.service.IUserService;
+
 
 @Service
 public class UserService implements IUserService {
@@ -91,14 +93,24 @@ public class UserService implements IUserService {
 		UserEntity newUserEntity = new UserEntity();
 		if (userDto.getId() != null) { // update
 			UserEntity oldUserEntity = userRepository.findUserById(userDto.getId()).get();
-			newUserEntity = userConverter.registerToEntity(userDto, oldUserEntity);
+			newUserEntity = userConverter.toEntity(userDto, oldUserEntity);
 		} else { // insert
-			newUserEntity = userConverter.registerToEntity(userDto);
+			newUserEntity = userConverter.toEntity(userDto);
 		}
 		newUserEntity = userRepository.save(newUserEntity);
 		return userConverter.toDTO(newUserEntity);
 		
 	}
 
-
+	@Override
+	public UserDTO login(String userName, String password) {
+		UserDTO userDto = new UserDTO();
+		UserEntity userEntity = userRepository.findUserByUserNameAndPassword(userName,password).get();
+		if(userName != null && password != null && userEntity != null) {
+			userDto = userConverter.toDTO(userEntity);
+			return userDto;
+		}
+		return null;
+		
+	}
 }
