@@ -10,7 +10,6 @@ import com.javaweb.newswebsite.entity.RoleEntity;
 
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 	//Optional<RoleEntity> findAll(RoleDTO id[]);
-	RoleEntity findOneByCode(String code);
 	///RoleEntity findAll(RoleDTO[] dto);
 	 Optional<RoleEntity> findByCode(String code);
 }

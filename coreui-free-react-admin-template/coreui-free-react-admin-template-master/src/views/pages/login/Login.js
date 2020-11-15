@@ -30,7 +30,7 @@ const Login = (props) => {
 
     if (username === "ttphu" && password === "123456") {
       console.log("Login Sucess");
-      props.history.push('/dashboard')
+      props.history.push('/admin/dashboard')
 
 
     } else {

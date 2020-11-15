@@ -11,10 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class NewAPI {
+    //test merge
     @Autowired
     private INewService newService;
 
@@ -45,6 +49,23 @@ public class NewAPI {
         return newService.findById(id);
     }
 
+    @GetMapping(value = "/new/find")
+    public NewOutput getNewsByDate(@RequestParam("startdate") String startdate,@RequestParam("enddate") String enddate) {
+        NewOutput model = new NewOutput();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date sdate= null;
+        Date edate=null;
+
+        try {
+            sdate = formatter.parse(startdate);
+            edate=formatter.parse(enddate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        model.setListResult(newService.findAllByCreatedDateBetween(sdate,edate));
+        return model;
+    }
     @PostMapping(value = "/new")
     public ResponseEntity<NewDTO> createNew(@RequestBody NewDTO model) {
 

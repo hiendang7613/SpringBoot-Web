@@ -89,6 +89,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
+
 	public UserDTO register(UserDTO userDto) {
 		UserEntity newUserEntity = new UserEntity();
 		if (userDto.getId() != null) { // update
@@ -101,6 +102,13 @@ public class UserService implements IUserService {
 		return userConverter.toDTO(newUserEntity);
 		
 	}
+
+	public UserDTO findById(Long id) {
+		UserEntity userEntity=userRepository.findUserById(id).get();
+		return  userConverter.toDTO(userEntity);
+	}
+
+
 
 	@Override
 	public UserDTO login(String userName, String password) {
