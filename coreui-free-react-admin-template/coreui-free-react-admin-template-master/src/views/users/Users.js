@@ -12,8 +12,9 @@ import {
   CCollapse,
   CButton
 } from '@coreui/react'
+import moment from 'moment'
+import UserService from "../../api/service/UserService.js"
 
-import usersData from './UsersData'
 
 const getBadge = status => {
   switch (status) {
@@ -30,14 +31,41 @@ const Users = () => {
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
   const [page, setPage] = useState(currentPage)
+  const [data, setData]=useState([])
 
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/users?page=${newPage}`)
   }
+  useEffect(() => {
+    getUserData()
 
+  }, [])
+
+  function getUserData(){
+    const dataUsers=[]
+    UserService.retrieveAllUsers().then((response) => {
+      console.log(response.data.listUser);
+      response.data.listUser.map((row)=>{
+        let rowTable={
+        id:`${row.id}`,
+        name:`${row.fullName}`,
+        registered:`${moment(row.createdDate).format("YYYY-MM-DD")}`,
+        role:`${row.role[0].name}`,
+        status: 'Pending'
+      }
+      dataUsers.push(rowTable);
+      })
+     setData(dataUsers);
+    })
+    .catch((err)=>{
+      alert(err.message);
+    });
+  }
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
+
   }, [currentPage, page])
+
   const [details, setDetails] = useState([])
   const toggleDetails = (index) => {
     const position = details.indexOf(index)
@@ -77,7 +105,9 @@ const Users = () => {
     placeholder: 'Tên người dùng'
 
   }
+
   return (
+
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -88,7 +118,7 @@ const Users = () => {
 
           <CCardBody>
           <CDataTable
-      items={usersData}
+      items={data}
       fields={fields}
       columnFilter
       tableFilter

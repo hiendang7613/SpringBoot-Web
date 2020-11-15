@@ -70,8 +70,8 @@ public class UserConverter {
 
 	public UserEntity toEntity(UserDTO userDto, UserEntity userEntity) {
 
-		userEntity.setUserName(userDto.getUserName());
-		userEntity.setPassword(userDto.getPassword());
+		//userEntity.setUserName(userDto.getUserName());
+		//userEntity.setPassword(userDto.getPassword());
 		userEntity.setFullName(userDto.getFullName());
 		userEntity.setJobTitle(userDto.getJobTitle());
 		userEntity.setPhone(userDto.getPhone());
