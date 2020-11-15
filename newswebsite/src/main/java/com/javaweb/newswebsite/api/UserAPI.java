@@ -12,21 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.expression.ParseException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.javaweb.newswebsite.api.output.UserOutPut;
 import com.javaweb.newswebsite.dto.UserDTO;
 import com.javaweb.newswebsite.service.IUserService;
 
 @RestController
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserAPI {
 
 	@Autowired
@@ -40,6 +33,7 @@ public class UserAPI {
 	@PutMapping(value = "/user/{id}")
 	public UserDTO updateNew(@RequestBody UserDTO model, @PathVariable("id") long id) {
 		model.setId(id);
+
 		return service.save(model);
 	}
 
