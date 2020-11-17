@@ -109,7 +109,20 @@ public class UserAPI {
 		return service.register(model);
 	}
 	
-	@GetMapping(value = "/user/login")
+	@PutMapping(value = "/user/edit/{id}")
+	public UserDTO editProfile(@RequestBody UserDTO model, @PathVariable("id") long id) {
+		model.setId(id);
+		model.setRoleCode(new String[] {"khach-hang"});
+		return service.save(model);
+	}
+	
+	@PutMapping(value = "/user/changePassword/{id}")
+	public UserDTO changePassword(@RequestBody UserDTO model, @PathVariable("id") long id) {
+		model.setId(id);
+		return service.changPassword(model);
+	}
+	
+	@PostMapping(value = "/user/login")
 	public UserOutPut loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password,
 			HttpServletRequest request) {
 

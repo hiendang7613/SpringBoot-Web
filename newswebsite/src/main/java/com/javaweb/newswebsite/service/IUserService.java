@@ -16,10 +16,12 @@ public interface IUserService {
 	UserDTO save(UserDTO userDto);
 	UserDTO register(UserDTO userDto);
 	UserDTO login(String userName, String password);
+	UserDTO changPassword(UserDTO userDto);
 	void delete(long[] ids);
 	List<UserDTO> findAll(Pageable pageable);
 	int totalUser();
 	List<UserDTO> findByKeyWord(String keyword, Pageable pageable);
 	List<UserDTO> findAllByCreatedDateBetween(Date startDate, Date endDate);
 	UserDTO findById(Long id);
+	
 }

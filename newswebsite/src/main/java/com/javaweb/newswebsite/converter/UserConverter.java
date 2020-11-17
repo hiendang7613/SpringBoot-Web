@@ -88,6 +88,10 @@ public class UserConverter {
 		return userEntity;
 	}
 	
+	public UserEntity changePassword(UserDTO userDto, UserEntity userEntity) {
+		userEntity.setPassword(userDto.getPassword());
+		return userEntity;
+	}
 	
 	
 }

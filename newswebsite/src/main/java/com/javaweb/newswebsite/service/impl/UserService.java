@@ -121,4 +121,15 @@ public class UserService implements IUserService {
 		return null;
 		
 	}
+
+	@Override
+	public UserDTO changPassword(UserDTO userDto) {
+		UserEntity newUserEntity = new UserEntity();
+		if(userDto.getId() != null) {
+			UserEntity oldUserEntity = userRepository.findById(userDto.getId()).get();
+			newUserEntity = userConverter.changePassword(userDto, oldUserEntity);
+		}
+		newUserEntity = userRepository.save(newUserEntity);
+		return userConverter.toDTO(newUserEntity);
+	}
 }
