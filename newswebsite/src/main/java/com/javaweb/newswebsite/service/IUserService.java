@@ -13,7 +13,7 @@ import com.javaweb.newswebsite.dto.UserDTO;
 
 public interface IUserService {
 	UserDTO save(UserDTO userDto);
-	void delete(long[] ids);
+	void delete(Long[] ids);
 	List<UserDTO> findAll(Pageable pageable);
 	int totalUser();
 	List<UserDTO> findByKeyWord(String keyword, Pageable pageable);
