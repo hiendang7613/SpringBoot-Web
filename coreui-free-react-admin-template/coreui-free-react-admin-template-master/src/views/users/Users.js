@@ -9,22 +9,25 @@ import {
   CDataTable,
   CRow,
   CPagination,
+  CLink,
   CCollapse,
   CButton
+
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
 import moment from 'moment'
 import UserService from "../../api/service/UserService.js"
 
 
-const getBadge = status => {
-  switch (status) {
-    case 'Active': return 'success'
-    case 'Inactive': return 'secondary'
-    case 'Pending': return 'warning'
-    case 'Banned': return 'danger'
-    default: return 'primary'
-  }
-}
+// const getBadge = status => {
+//   switch (status) {
+//     case '1': return 'success'
+//     case '2': return 'secondary'
+//     case '3': return 'warning'
+//     case '4': return 'danger'
+//     default: return 'primary'
+//   }
+// }
 
 const Users = () => {
   const history = useHistory()
@@ -32,7 +35,7 @@ const Users = () => {
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
   const [page, setPage] = useState(currentPage)
   const [data, setData]=useState([])
-
+  const [message, setMessage]=useState()
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/users?page=${newPage}`)
   }
@@ -40,7 +43,13 @@ const Users = () => {
     getUserData()
 
   }, [])
+  function deleteClicked(id) {
 
+    UserService.deleteUsers(id).then((response) => {
+      setMessage(`Delete of user ${id} successful`);
+      getUserData()
+    });
+  }
   function getUserData(){
     const dataUsers=[]
     UserService.retrieveAllUsers().then((response) => {
@@ -51,7 +60,7 @@ const Users = () => {
         name:`${row.fullName}`,
         registered:`${moment(row.createdDate).format("YYYY-MM-DD")}`,
         role:`${row.role[0].name}`,
-        status: 'Pending'
+        status:`${row.status}`
       }
       dataUsers.push(rowTable);
       })
@@ -79,11 +88,20 @@ const Users = () => {
   }
   const getBadge = (status)=>{
     switch (status) {
-      case 'Active': return 'success'
-      case 'Inactive': return 'secondary'
-      case 'Pending': return 'warning'
-      case 'Banned': return 'danger'
+      case "1": return 'success'
+     // case 'Inactive': return 'secondary'
+      case "2": return 'warning'
+      case "3": return 'danger'
       default: return 'primary'
+    }
+  }
+  const getNameBadge = (status)=>{
+    switch (status) {
+      case "1": return 'Active'
+     // case 'Inactive': return 'secondary'
+      case "2": return 'Pending'
+      case "3": return 'Banned'
+      default: return 'None'
     }
   }
   const fields = [
@@ -112,12 +130,21 @@ const Users = () => {
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
+
             Users
-            <small className="text-muted"> example</small>
+            <small className="text-muted"></small>
           </CCardHeader>
 
           <CCardBody>
+          {message && (
+          <div className="alert alert-success">{message}</div>
+        )}
           <CDataTable
+       onRowClick={(item, index,detailsClick) => {
+         if(detailsClick!=="show_details")
+         history.push(`/admin/users/${item.id}`);
+
+      }}
       items={data}
       fields={fields}
       columnFilter
@@ -134,7 +161,7 @@ const Users = () => {
           (item)=>(
             <td>
               <CBadge color={getBadge(item.status)}>
-                {item.status}
+                {getNameBadge(item.status)}
               </CBadge>
             </td>
           ),
@@ -163,11 +190,14 @@ const Users = () => {
                     {item.username}
                   </h4>
                   <p className="text-muted">User since: {item.registered}</p>
-                  <CButton size="sm" color="info">
-                    User Settings
+                  <CButton size="sm" color="success">
+                  <CLink to={`/admin/users/${item.id}`} className="text-white">
+                  <CIcon name="cil-magnifying-glass" alt="Details" />
+                  </CLink>
                   </CButton>
-                  <CButton size="sm" color="danger" className="ml-1">
-                    Delete
+
+                  <CButton size="sm" color="danger" className="ml-1" onClick={()=> deleteClicked(item.id)}>
+                  <CIcon name="cil-trash" alt="Delete" />
                   </CButton>
                 </CCardBody>
               </CCollapse>
