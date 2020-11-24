@@ -37,6 +37,8 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
+const Categories = React.lazy(() => import('./views/categories/Categories'));
+const Category = React.lazy(() => import('./views/categories/Category'));
 
 const routes = [
   { path: '/admin', exact: true, name: 'Home' },
@@ -78,7 +80,9 @@ const routes = [
   { path: '/admin/notifications/toaster', name: 'Toaster', component: Toaster },
   { path: '/admin/widgets', name: 'Widgets', component: Widgets },
   { path: '/admin/users', exact: true,  name: 'Users', component: Users },
-  { path: '/admin/users/:id', exact: true, name: 'User Details', component: User }
+  { path: '/admin/users/:id', exact: true, name: 'User Details', component: User },
+  { path: '/admin/categories', exact: true,  name: 'Categories', component: Categories },
+  { path: '/admin/categories/:id', exact: true, name: 'Category Details', component: Category }
 ];
 
 export default routes;

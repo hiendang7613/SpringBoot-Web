@@ -76,7 +76,7 @@ useEffect(() => {
    // console.log(todo)
     if(id==-1){
       UserService.createUser(todo)
-     .then( () => props.history.push("/admin/users"))
+     .then(() => props.history.push("/admin/users"))
     }else{
       UserService.updateUser(id,todo)
     .then( () => props.history.push('/admin/users'))
