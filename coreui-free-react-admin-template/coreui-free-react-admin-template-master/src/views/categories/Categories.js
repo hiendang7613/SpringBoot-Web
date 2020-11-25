@@ -16,20 +16,9 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import moment from 'moment'
-import UserService from "../../api/service/UserService.js"
+import CategoryService from "../../api/service/CategoryService.js"
 
-
-// const getBadge = status => {
-//   switch (status) {
-//     case '1': return 'success'
-//     case '2': return 'secondary'
-//     case '3': return 'warning'
-//     case '4': return 'danger'
-//     default: return 'primary'
-//   }
-// }
-
-const Users = () => {
+const Categories = () => {
   const history = useHistory()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
@@ -37,30 +26,30 @@ const Users = () => {
   const [data, setData]=useState([])
   const [message, setMessage]=useState()
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
+    currentPage !== newPage && history.push(`/categories?page=${newPage}`)
   }
   useEffect(() => {
-    getUserData()
+    getCategoryData()
 
   }, [])
   function deleteClicked(id) {
 
-    UserService.deleteUsers(id).then((response) => {
-      setMessage(`Delete of user ${id} successful`);
-      getUserData()
+    CategoryService.deleteCategory(id).then((response) => {
+      setMessage(`Delete of category ${id} successful`);
+      getCategoryData()
     });
   }
-  function getUserData(){
+  function getCategoryData(){
     const dataUsers=[]
-    UserService.retrieveAllUsers().then((response) => {
-      console.log(response.data.listUser);
-      response.data.listUser.map((row)=>{
+    CategoryService.retrieveAllCategories().then((response) => {
+
+      response.data.map((row)=>{
         let rowTable={
         id:`${row.id}`,
-        name:`${row.fullName}`,
+        name:`${row.name}`,
+        code:`${row.code}`,
         registered:`${moment(row.createdDate).format("YYYY-MM-DD")}`,
-        role:`${row.role[0].name}`,
-        status:`${row.status}`
+
       }
       dataUsers.push(rowTable);
       })
@@ -86,29 +75,11 @@ const Users = () => {
     }
     setDetails(newDetails)
   }
-  const getBadge = (status)=>{
-    switch (status) {
-      case "1": return 'success'
-     // case 'Inactive': return 'secondary'
-      case "2": return 'warning'
-      case "3": return 'danger'
-      default: return 'primary'
-    }
-  }
-  const getNameBadge = (status)=>{
-    switch (status) {
-      case "1": return 'Active'
-     // case 'Inactive': return 'secondary'
-      case "2": return 'Pending'
-      case "3": return 'Banned'
-      default: return 'None'
-    }
-  }
+
   const fields = [
-    { key: 'name', _style: { width: '40%'} },
+    { key: 'name', _style: { width: '30%'} },
+    { key: 'code', _style: { width: '30%'} },
     'registered',
-    { key: 'role', _style: { width: '20%'} },
-    { key: 'status', _style: { width: '20%'} },
     {
       key: 'show_details',
       label: '',
@@ -117,12 +88,7 @@ const Users = () => {
       filter: false
     }
   ]
-  const nameFilterTable = {
 
-    label: 'Tìm',
-    placeholder: 'Tên người dùng'
-
-  }
 
   return (
 
@@ -131,7 +97,7 @@ const Users = () => {
         <CCard>
           <CCardHeader>
 
-            Users
+            Categories
             <small className="text-muted"></small>
           </CCardHeader>
 
@@ -141,8 +107,9 @@ const Users = () => {
         )}
           <CDataTable
        onRowClick={(item, index,detailsClick) => {
+         console.log(detailsClick);
          if(detailsClick!=="show_details"&&detailsClick!=="details")
-         history.push(`/admin/users/${item.id}`);
+         history.push(`/admin/categories/${item.id}`);
 
       }}
       items={data}
@@ -157,14 +124,7 @@ const Users = () => {
       pagination
 
       scopedSlots = {{
-        'status':
-          (item)=>(
-            <td>
-              <CBadge color={getBadge(item.status)}>
-                {getNameBadge(item.status)}
-              </CBadge>
-            </td>
-          ),
+
         'show_details':
           (item, index)=>{
             return (
@@ -187,11 +147,11 @@ const Users = () => {
               <CCollapse show={details.includes(index)}>
                 <CCardBody>
                   <h4>
-                    {item.username}
+                    {item.name}
                   </h4>
-                  <p className="text-muted">User since: {item.registered}</p>
+                  <p className="text-muted">Category since: {item.registered}</p>
                   <CButton size="sm" color="success">
-                  <CLink to={`/admin/users/${item.id}`} className="text-white">
+                  <CLink to={`/admin/categories/${item.id}`} className="text-white">
                   <CIcon name="cil-magnifying-glass" alt="Details" />
                   </CLink>
                   </CButton>
@@ -214,4 +174,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Categories

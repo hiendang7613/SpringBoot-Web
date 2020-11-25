@@ -29,19 +29,24 @@ public class UserAPI {
 
 	@PostMapping(value = "/user")
 	public UserDTO createNew(@RequestBody UserDTO model) {
+		model.setId(null);
 		return service.save(model);
 	}
 
 	@PutMapping(value = "/user/{id}")
-	public UserDTO updateNew(@RequestBody UserDTO model, @PathVariable("id") long id) {
+	public UserDTO updateNew(@RequestBody UserDTO model, @PathVariable("id") Long id) {
 		model.setId(id);
 
 		return service.save(model);
 	}
 
-	@DeleteMapping(value = "/user")
-	public void deleteNew(@RequestBody long[] ids) {
-		service.delete(ids);
+//	@DeleteMapping(value = "/user")
+//	public void deleteUser(@RequestBody(required = false) Long[] ids) {
+//		service.delete(ids);
+//	}
+	@DeleteMapping(value = "/user/{id}")
+	public void deleteUserById(@PathVariable("id") Long ids) {
+		service.delete(new Long[]{ids});
 	}
 
 	

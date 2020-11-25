@@ -6,82 +6,116 @@ import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm,
   CInvalidFeedback,
   CTextarea,
   CInput,
-  CInputFile,
   CInputCheckbox,
-  CInputRadio,
-  CInputGroup,
-  CInputGroupAppend,
-  CInputGroupPrepend,
-  CDropdown,
-  CInputGroupText,
   CLabel,
   CSelect,
   CCardFooter,
-  CButton,
-  CBadge
+  CButton
+
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import moment from 'moment'
 import UserService from "../../api/service/UserService.js"
 import { useFormik} from "formik";
+const selectedCheckboxes=new Set();
+const defaulChecked=new Set();
 
   const User =  (props)  =>  {
 
   const [data, setData]=useState([])
-   let {email, jobTitle,fullName,phone,imageUrl,intro,status,userName,roleCode}=data
+   let {email, jobTitle,fullName,phone,imageUrl,intro,status,userName,password,roleCode}=data
   const id =props.match.params.id
+
+  const items = [
+    'nguoi-dung',
+    'quan-ly',
+    'admin',
+  ];
   const formik = useFormik({
-    initialValues:{email, jobTitle,fullName,phone,imageUrl,intro,status,userName,roleCode},
-
+    initialValues:{email, jobTitle,fullName,phone,imageUrl,intro,status,userName,password,roleCode},
     enableReinitialize: true,
-    onSubmit: values => {onSubmit(values)},
-  });
+     onSubmit: values => {onSubmit(values)},
+    //  onSubmit: values => {
+    //    alert(JSON.stringify(values, null, 2));
 
+    //  },
+  });
+console.log({email, jobTitle,fullName,phone,imageUrl,intro,status,userName,password,roleCode})
 
 useEffect(() => {
+  const  getUserData = () =>{
+    if(id !== '-1'){
+    UserService.retrieveUser(id).then((response) => {
+      console.log(response.data);
+      response.data.role.map((item)=>{
+       selectedCheckboxes.add(item.code)
+       defaulChecked.add(item.code)
+       return null
+      })
+
+      setData(response.data);
+    })
+  }
+  }
     getUserData()
+  }, [id])
+  const isChecked=(label)=>{
+    if (defaulChecked.has(label)){
+      return  defaulChecked.delete(label);
 
-  }, [])
-
+  }
+  }
+  const toggleCheckbox = label => {
+    if (selectedCheckboxes.has(label)) {
+      selectedCheckboxes.delete(label);
+    } else {
+      selectedCheckboxes.add(label);
+    }
+  }
   function onSubmit(values){
-
     let todo={
       id:id,
       userName:values.userName,
+      password:values.password,
       email:values.email,
       jobTitle:values.jobTitle,
       fullName:values.fullName,
       phone:values.phone,
       imageUrl:values.imageUrl,
       intro:values.intro,
-      status:values.status,
-      roleCode:values.roleCode
+      status:values.status?values.status:1,
+      roleCode:Array.from(selectedCheckboxes)
     }
-    console.log(todo)
-    if(id===-1){
-    // TodoDataService.createTodo(username,todo)
-    // .then( () => this.props.history.push("/admin/todos"))
+   // console.log(todo)
+    if(id==='-1'){
+      UserService.createUser(todo)
+     .then(() => props.history.push("/admin/users"))
     }else{
       UserService.updateUser(id,todo)
     .then( () => props.history.push('/admin/users'))
     }
   }
-    function getUserData(){
-      const dataUsers=[]
-      UserService.retrieveUser(id).then((response) => {
-        console.log(response.data);
-        setData(response.data);
 
-      })
-      .catch((err)=>{
-        alert(err.message);
-      });
+   const createCheckbox = label => (
+      <CFormGroup key={label} variant="checkbox" className="checkbox">
+                      <CInputCheckbox
+                        id={`checkbox_${label}`}
+                        name={`checkbox_${label}`}
+                        onClick={(e)=>toggleCheckbox(e.target.value)}
+                        value={label}
+                        defaultChecked={isChecked(label)}
 
-    }
+                      />
+                      <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox1">{label}</CLabel>
+                    </CFormGroup>
+    )
 
-
+    const createCheckboxes = () => (
+      items.map((item)=>createCheckbox(item))
+    )
   return (
     <>
+  { id !== '-1' ?(
     <CRow>
       <CCol lg={6}>
         <CCard>
@@ -117,9 +151,11 @@ useEffect(() => {
                           <td>
                         {
                           data.role &&
-                          data.role.map((item)=> (
-                            <strong key={item.id}>"{item.name}" </strong>
-                          ))
+                          data.role.map((item)=>
+
+                           (
+                          <strong key={item.id}>"{item.name}" </strong>
+                        ))
                         }
                         </td>
                         </tr>
@@ -142,7 +178,8 @@ useEffect(() => {
         </CCard>
       </CCol>
     </CRow>
-
+  ):""
+    }
     <CRow>
         <CCol xs="12" md="12" >
           <CCard>
@@ -168,6 +205,16 @@ useEffect(() => {
                   <CCol xs="12" md="9">
                     <CInput id="userName" name="userName" placeholder="Username" onChange={formik.handleChange}
              value={formik.values.userName|| ""} />
+                    <CFormText></CFormText>
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="password">Password</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput id="password" name="password" placeholder="Password" onChange={formik.handleChange}
+             value={formik.values.password|| ""} />
                     <CFormText></CFormText>
                   </CCol>
                 </CFormGroup>
@@ -229,16 +276,16 @@ useEffect(() => {
                   </CCol>
                   <CCol xs="12" md="9">
                     <CSelect  custom name="status" id="status" onChange={formik.handleChange}  value={`${formik.values.status}`||"1"}>
-                      <option  value={1}>Active</option>
-                      <option  value={2}>Pending</option>
-                      <option  value={3}>Banned</option>
+                      <option  value="1">Active</option>
+                      <option  value="2">Pending</option>
+                      <option  value="3">Banned</option>
                     </CSelect>
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
                   <CCol md="3"><CLabel>Role</CLabel></CCol>
                   <CCol md="9">
-                    <CFormGroup variant="checkbox" className="checkbox">
+                    {/* <CFormGroup variant="checkbox" className="checkbox">
                       <CInputCheckbox
                         id="roleCode"
                         name="roleCode"
@@ -254,7 +301,8 @@ useEffect(() => {
                     <CFormGroup variant="checkbox" className="checkbox">
                       <CInputCheckbox id="roleCode" onChange={formik.handleChange} name="roleCode" value="admin" />
                       <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox3">Admin</CLabel>
-                    </CFormGroup>
+                    </CFormGroup> */}
+                    {createCheckboxes("ok")}
                   </CCol>
                 </CFormGroup>
 

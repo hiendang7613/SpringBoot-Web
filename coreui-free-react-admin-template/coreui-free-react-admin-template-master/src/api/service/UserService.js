@@ -12,7 +12,7 @@ class UserDataService {
   }
   deleteUsers(id) {
    // console.log("executed service");
-    return Axios.delete(`${API_URL}/user`,id);
+    return Axios.delete(`${API_URL}/user/${id}`);
   }
   updateUser(id,user) {
     // console.log("executed service");
