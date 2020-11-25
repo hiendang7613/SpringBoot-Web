@@ -44,4 +44,9 @@ public class CategoryAPI {
     public List<CategoryDTO> getAllCategory(){
         return categoryService.findAll();
     }
+    
+    @DeleteMapping(value = "/category/{id}")
+    public void deleteUserById(@PathVariable("id") Long ids) {
+        categoryService.delete(new Long[]{ids});
+    }
 }

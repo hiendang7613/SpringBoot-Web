@@ -4,11 +4,8 @@ import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm,
   CFormText,
   CValidFeedback,
   CInvalidFeedback,
-  CTextarea,
   CInput,
-  CInputCheckbox,
   CLabel,
-  CSelect,
   CCardFooter,
   CButton
 
@@ -17,13 +14,13 @@ import CIcon from '@coreui/icons-react'
 import moment from 'moment'
 import CategoryService from "../../api/service/CategoryService.js"
 import { useFormik} from "formik";
-  const User =  (props)  =>  {
+  const Category =  (props)  =>  {
 
   const [data, setData]=useState([])
    let {name,code}=data
   const id =props.match.params.id
 
-  
+
   const formik = useFormik({
     initialValues:{name,code},
     enableReinitialize: true,
@@ -36,9 +33,17 @@ import { useFormik} from "formik";
 
 
 useEffect(() => {
+  function getCategoryData(){
+    if(id !== '-1'){
+    CategoryService.retrieveCategory(id).then((response) => {
+      setData(response.data);
+    })
+  }
+
+  }
   getCategoryData()
 
-  }, [])
+  }, [id])
 
   function onSubmit(values){
     let todo={
@@ -47,7 +52,7 @@ useEffect(() => {
       code:values.code,
 
     }
-    if(id==-1){
+    if(id === '-1'){
       CategoryService.createCategory(todo)
      .then(() => props.history.push("/admin/categories"))
     }else{
@@ -55,22 +60,15 @@ useEffect(() => {
     .then(() => props.history.push('/admin/categories'))
     }
   }
-    function getCategoryData(){
 
-      CategoryService.retrieveCategory(id).then((response) => {
-        setData(response.data);
-      })
-
-
-    }
   return (
     <>
-
+  { id !== '-1' ?(
     <CRow>
       <CCol lg={6}>
         <CCard>
           <CCardHeader>
-            User id: {id}
+            Category id: {id}
           </CCardHeader>
           <CCardBody>
               <table className="table table-striped table-hover">
@@ -110,13 +108,13 @@ useEffect(() => {
         </CCard>
       </CCol>
     </CRow>
-
+  ):""}
     <CRow>
         <CCol xs="12" md="12" >
           <CCard>
           <CForm action="" method="post" onSubmit={formik.handleSubmit} className="form-horizontal">
             <CCardHeader>
-              Edit User
+              Form Category
               <small> id:{id}</small>
             </CCardHeader>
             <CCardBody>
@@ -159,4 +157,4 @@ useEffect(() => {
   )
 }
 
-export default User
+export default Category

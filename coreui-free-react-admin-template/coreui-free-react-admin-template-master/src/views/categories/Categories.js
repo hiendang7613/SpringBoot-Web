@@ -18,7 +18,7 @@ import CIcon from '@coreui/icons-react'
 import moment from 'moment'
 import CategoryService from "../../api/service/CategoryService.js"
 
-const Users = () => {
+const Categories = () => {
   const history = useHistory()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
@@ -34,10 +34,10 @@ const Users = () => {
   }, [])
   function deleteClicked(id) {
 
-    // CategoryService.deleteUsers(id).then((response) => {
-    //   setMessage(`Delete of user ${id} successful`);
-    //   getUserData()
-    // });
+    CategoryService.deleteCategory(id).then((response) => {
+      setMessage(`Delete of category ${id} successful`);
+      getCategoryData()
+    });
   }
   function getCategoryData(){
     const dataUsers=[]
@@ -88,12 +88,7 @@ const Users = () => {
       filter: false
     }
   ]
-  const nameFilterTable = {
 
-    label: 'Tìm',
-    placeholder: 'Tên người dùng'
-
-  }
 
   return (
 
@@ -102,7 +97,7 @@ const Users = () => {
         <CCard>
           <CCardHeader>
 
-            Users
+            Categories
             <small className="text-muted"></small>
           </CCardHeader>
 
@@ -112,7 +107,8 @@ const Users = () => {
         )}
           <CDataTable
        onRowClick={(item, index,detailsClick) => {
-         if(detailsClick!=="show_details")
+         console.log(detailsClick);
+         if(detailsClick!=="show_details"&&detailsClick!=="details")
          history.push(`/admin/categories/${item.id}`);
 
       }}
@@ -153,7 +149,7 @@ const Users = () => {
                   <h4>
                     {item.name}
                   </h4>
-                  <p className="text-muted">User since: {item.registered}</p>
+                  <p className="text-muted">Category since: {item.registered}</p>
                   <CButton size="sm" color="success">
                   <CLink to={`/admin/categories/${item.id}`} className="text-white">
                   <CIcon name="cil-magnifying-glass" alt="Details" />
@@ -178,4 +174,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Categories

@@ -141,7 +141,7 @@ const Users = () => {
         )}
           <CDataTable
        onRowClick={(item, index,detailsClick) => {
-         if(detailsClick!=="show_details")
+         if(detailsClick!=="show_details"&&detailsClick!=="details")
          history.push(`/admin/users/${item.id}`);
 
       }}

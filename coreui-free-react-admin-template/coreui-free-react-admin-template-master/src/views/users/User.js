@@ -43,9 +43,22 @@ const defaulChecked=new Set();
 console.log({email, jobTitle,fullName,phone,imageUrl,intro,status,userName,password,roleCode})
 
 useEffect(() => {
-    getUserData()
+  const  getUserData = () =>{
+    if(id !== '-1'){
+    UserService.retrieveUser(id).then((response) => {
+      console.log(response.data);
+      response.data.role.map((item)=>{
+       selectedCheckboxes.add(item.code)
+       defaulChecked.add(item.code)
+       return null
+      })
 
-  }, [])
+      setData(response.data);
+    })
+  }
+  }
+    getUserData()
+  }, [id])
   const isChecked=(label)=>{
     if (defaulChecked.has(label)){
       return  defaulChecked.delete(label);
@@ -74,7 +87,7 @@ useEffect(() => {
       roleCode:Array.from(selectedCheckboxes)
     }
    // console.log(todo)
-    if(id==-1){
+    if(id==='-1'){
       UserService.createUser(todo)
      .then(() => props.history.push("/admin/users"))
     }else{
@@ -82,20 +95,7 @@ useEffect(() => {
     .then( () => props.history.push('/admin/users'))
     }
   }
-    function getUserData(){
 
-      UserService.retrieveUser(id).then((response) => {
-        console.log(response.data);
-        response.data.role.map((item)=>{
-         selectedCheckboxes.add(item.code)
-         defaulChecked.add(item.code)
-        })
-
-        setData(response.data);
-      })
-
-
-    }
    const createCheckbox = label => (
       <CFormGroup key={label} variant="checkbox" className="checkbox">
                       <CInputCheckbox
@@ -115,7 +115,7 @@ useEffect(() => {
     )
   return (
     <>
-
+  { id !== '-1' ?(
     <CRow>
       <CCol lg={6}>
         <CCard>
@@ -178,7 +178,8 @@ useEffect(() => {
         </CCard>
       </CCol>
     </CRow>
-
+  ):""
+    }
     <CRow>
         <CCol xs="12" md="12" >
           <CCard>
