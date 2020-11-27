@@ -14,6 +14,9 @@ public class CommentEntity extends BaseEntity {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "likes")
+    private Long likes;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "new_id")
     private NewEntity newEntity;
@@ -44,5 +47,21 @@ public class CommentEntity extends BaseEntity {
 
     public void setNewEntity(NewEntity newEntity) {
         this.newEntity = newEntity;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
+
+    public List<CommentChildEntity> getCommentChilds() {
+        return commentChilds;
+    }
+
+    public void setCommentChilds(List<CommentChildEntity> commentChilds) {
+        this.commentChilds = commentChilds;
     }
 }

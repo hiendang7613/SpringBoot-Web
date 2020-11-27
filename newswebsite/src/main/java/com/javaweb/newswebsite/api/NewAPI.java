@@ -68,17 +68,21 @@ public class NewAPI {
     }
     @PostMapping(value = "/new")
     public ResponseEntity<NewDTO> createNew(@RequestBody NewDTO model) {
-
+        model.setId(null);
         return new ResponseEntity<>(newService.save(model), HttpStatus.CREATED);
     }
-    @PutMapping(value = "/new")
-    public ResponseEntity<NewDTO> updateNew(@RequestBody NewDTO model) {
-
+    @PutMapping(value = "/new/{id}")
+    public ResponseEntity<NewDTO> updateNew(@RequestBody NewDTO model,@PathVariable("id") Long id) {
+        model.setId(id);
         return new ResponseEntity<>(newService.save(model), HttpStatus.OK);
     }
     @DeleteMapping(value = "/new")
     public ResponseEntity<?> deleteNew(@RequestBody Long[] ids) {
         newService.delete(ids);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping(value = "/new/{id}")
+    public void deleteUserById(@PathVariable("id") Long ids) {
+        newService.delete(new Long[]{ids});
     }
 }

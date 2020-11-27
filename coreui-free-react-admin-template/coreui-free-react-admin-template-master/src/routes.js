@@ -39,6 +39,8 @@ const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 const Categories = React.lazy(() => import('./views/categories/Categories'));
 const Category = React.lazy(() => import('./views/categories/Category'));
+const New = React.lazy(() => import('./views/news/New'));
+const News= React.lazy(() => import('./views/news/News'));
 
 const routes = [
   { path: '/admin', exact: true, name: 'Home' },
@@ -82,7 +84,9 @@ const routes = [
   { path: '/admin/users', exact: true,  name: 'Users', component: Users },
   { path: '/admin/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/admin/categories', exact: true,  name: 'Categories', component: Categories },
-  { path: '/admin/categories/:id', exact: true, name: 'Category Details', component: Category }
+  { path: '/admin/categories/:id', exact: true, name: 'Category Details', component: Category },
+  { path: '/admin/news', exact: true,  name: 'Categories', component: News },
+  { path: '/admin/news/:id', exact: true, name: 'Category Details', component: New }
 ];
 
 export default routes;

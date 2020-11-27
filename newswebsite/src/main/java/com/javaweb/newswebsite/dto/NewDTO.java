@@ -6,6 +6,24 @@ public class NewDTO extends AbstractDTO<NewDTO>{
     private String shortDescription;
     private String categoryCode;
     private String thumbnail;
+    private Integer status;
+    private Long likes;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
 
     public String getShortDescription() {
         return shortDescription;

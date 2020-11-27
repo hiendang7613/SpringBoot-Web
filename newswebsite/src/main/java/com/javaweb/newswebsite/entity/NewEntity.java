@@ -21,7 +21,7 @@ public class NewEntity extends BaseEntity {
     @Column(name = "content",columnDefinition = "TEXT")
     private String content;
     @Column(name = "status")
-    private String status;
+    private Integer status;
     @Column(name = "likes")
     private Long likes;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -77,5 +77,21 @@ public class NewEntity extends BaseEntity {
 
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
     }
 }

@@ -12,6 +12,7 @@ public class NewOutput {
     private int totalItem;
     private String sortName;
     private String sortBy;
+    private List<NewDTO> listResult = new ArrayList<>();
 
     public int getTotalItem() {
         return totalItem;
@@ -37,7 +38,7 @@ public class NewOutput {
         this.sortBy = sortBy;
     }
 
-    private List<NewDTO> listResult = new ArrayList<>();
+
 
     public int getPage() {
         return page;

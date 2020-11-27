@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation,Link } from 'react-router-dom'
 import {
   CBadge,
   CCard,
@@ -16,9 +16,9 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import moment from 'moment'
-import CategoryService from "../../api/service/CategoryService.js"
+import NewService from "../../api/service/NewService.js"
 
-const Categories = () => {
+const News = () => {
   const history = useHistory()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
@@ -26,29 +26,31 @@ const Categories = () => {
   const [data, setData]=useState([])
   const [message, setMessage]=useState()
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/categories?page=${newPage}`)
+    currentPage !== newPage && history.push(`/news?page=${newPage}`)
   }
   useEffect(() => {
-    getCategoryData()
+    getNewData()
 
   }, [])
   function deleteClicked(id) {
 
-    CategoryService.deleteCategory(id).then((response) => {
-      setMessage(`Delete of category ${id} successful`);
-      getCategoryData()
+    NewService.deleteNew(id).then((response) => {
+      setMessage(`Delete of new ${id} successful`);
+      getNewData()
     });
   }
-  function getCategoryData(){
+  function getNewData(){
     const dataUsers=[]
-    CategoryService.retrieveAllCategories().then((response) => {
-
-      response.data.map((row)=>{
+    NewService.retrieveAllNews().then((response) => {
+      console.log(response.data.listResult)
+      response.data.listResult.map((row)=>{
         let rowTable={
         id:`${row.id}`,
-        name:`${row.name}`,
-        code:`${row.code}`,
-        registered:`${moment(row.createdDate).format("YYYY-MM-DD")}`,
+        title:`${row.title}`,
+        status:`${row.status}`,
+        description:`${row.shortDescription}`,
+        createdBy:`${row.createdBy}`,
+        createdDate:`${moment(row.createdDate).format("YYYY-MM-DD")}`,
 
       }
       dataUsers.push(rowTable);
@@ -75,11 +77,31 @@ const Categories = () => {
     }
     setDetails(newDetails)
   }
+  const getBadge = (status)=>{
+    switch (status) {
+      case "1": return 'success'
+     // case 'Inactive': return 'secondary'
+      case "2": return 'warning'
+      case "3": return 'danger'
+      default: return 'primary'
+    }
+  }
+  const getNameBadge = (status)=>{
+    switch (status) {
+      case "1": return 'Active'
+     // case 'Inactive': return 'secondary'
+      case "2": return 'Pending'
+      case "3": return 'Banned'
+      default: return 'None'
+    }
+  }
 
   const fields = [
-    { key: 'name', _style: { width: '30%'} },
-    { key: 'code', _style: { width: '30%'} },
-    'registered',
+    { key: 'title', _style: { width: '30%'} },
+    { key: 'description', _style: { width: '30%'} },
+    'createdDate',
+    { key: 'status', _style: { width: '10%'}},
+
     {
       key: 'show_details',
       label: '',
@@ -96,8 +118,7 @@ const Categories = () => {
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-
-            Categories
+          News
             <small className="text-muted"></small>
           </CCardHeader>
 
@@ -109,7 +130,7 @@ const Categories = () => {
        onRowClick={(item, index,detailsClick) => {
          console.log(detailsClick);
          if(detailsClick!=="show_details"&&detailsClick!=="details")
-         history.push(`/admin/categories/${item.id}`);
+         history.push(`/admin/news/${item.id}`);
 
       }}
       items={data}
@@ -124,7 +145,14 @@ const Categories = () => {
       pagination
 
       scopedSlots = {{
-
+        'status':
+          (item)=>(
+            <td>
+              <CBadge color={getBadge(item.status)}>
+                {getNameBadge(item.status)}
+              </CBadge>
+            </td>
+          ),
         'show_details':
           (item, index)=>{
             return (
@@ -149,11 +177,11 @@ const Categories = () => {
                   <h4>
                     {item.name}
                   </h4>
-                  <p className="text-muted">Category since: {item.registered}</p>
-                  <CButton size="sm" color="success">
-                  <CLink to={`/admin/categories/${item.id}`} className="text-white">
+                  <p className="text-muted">New since: {item.registered}</p>
+                  <CButton size="sm" color="success" onClick={()=>{history.push(`/admin/news/${item.id}`)}}>
+
                   <CIcon name="cil-magnifying-glass" alt="Details" />
-                  </CLink>
+
                   </CButton>
 
                   <CButton size="sm" color="danger" className="ml-1" onClick={()=> {
@@ -176,4 +204,4 @@ const Categories = () => {
   )
 }
 
-export default Categories
+export default News

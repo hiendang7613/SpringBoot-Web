@@ -190,13 +190,15 @@ const Users = () => {
                     {item.username}
                   </h4>
                   <p className="text-muted">User since: {item.registered}</p>
-                  <CButton size="sm" color="success">
-                  <CLink to={`/admin/users/${item.id}`} className="text-white">
+                  <CButton size="sm" color="success" onClick={()=>{history.push(`/admin/users/${item.id}`)}}>
+
                   <CIcon name="cil-magnifying-glass" alt="Details" />
-                  </CLink>
+
                   </CButton>
 
-                  <CButton size="sm" color="danger" className="ml-1" onClick={()=> deleteClicked(item.id)}>
+                  <CButton size="sm" color="danger" className="ml-1" onClick={()=> {
+                    toggleDetails(index);
+                    deleteClicked(item.id)}}>
                   <CIcon name="cil-trash" alt="Delete" />
                   </CButton>
                 </CCardBody>

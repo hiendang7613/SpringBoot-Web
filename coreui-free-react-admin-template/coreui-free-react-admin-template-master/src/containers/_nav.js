@@ -10,9 +10,33 @@ export default [
     }
   },
   {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Managers']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Users',
+    to: '/admin/users',
+    icon: 'cil-speedometer',
+    badge: {
+      color: 'info',
+      text: 'NEW',
+    }
+  },
+  {
     _tag: 'CSidebarNavItem',
     name: 'Categories',
     to: '/admin/categories',
+    icon: 'cil-speedometer',
+    badge: {
+      color: 'info',
+      text: 'NEW',
+    }
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'News',
+    to: '/admin/news',
     icon: 'cil-speedometer',
     badge: {
       color: 'info',
