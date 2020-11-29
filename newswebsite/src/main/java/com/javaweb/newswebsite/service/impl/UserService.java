@@ -132,4 +132,10 @@ public class UserService implements IUserService {
 		newUserEntity = userRepository.save(newUserEntity);
 		return userConverter.toDTO(newUserEntity);
 	}
+
+	@Override
+	public void delete(long[] ids) {
+		// TODO Auto-generated method stub
+		
+	}
 }

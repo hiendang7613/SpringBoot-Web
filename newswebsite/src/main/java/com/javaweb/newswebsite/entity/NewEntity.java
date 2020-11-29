@@ -20,10 +20,10 @@ public class NewEntity extends BaseEntity {
 
     @Column(name = "content",columnDefinition = "TEXT")
     private String content;
-    @Column(name = "status")
-    private String status;
-    @Column(name = "likes")
-    private Long likes;
+//    @Column(name = "status")
+//    private String status;
+//    @Column(name = "likes")
+//    private Long likes;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
