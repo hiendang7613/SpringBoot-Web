@@ -17,6 +17,8 @@ import moment from 'moment'
 import NewService from "../../api/service/NewService.js"
 import CategoryService from "../../api/service/CategoryService.js"
 import { useFormik} from "formik";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   const New =  (props)  =>  {
 
   const [data, setData]=useState([])
@@ -46,7 +48,7 @@ useEffect(() => {
 
   }
   function getCategoryData(){
-    
+
     CategoryService.retrieveAllCategories().then((response) => {
      setCategory(response.data);
     })
@@ -180,20 +182,7 @@ useEffect(() => {
                     <CFormText></CFormText>
                   </CCol>
                 </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel htmlFor="content">Content</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CTextarea
-                      name="content"
-                      id="content"
-                      onChange={formik.handleChange} value={formik.values.content|| ""}
-                      rows="9"
-                      placeholder="Content..."
-                    />
-                  </CCol>
-                </CFormGroup>
+
                 <CFormGroup row>
                   <CCol md="3">
                     <CLabel htmlFor="likes">Like</CLabel>
@@ -230,6 +219,29 @@ useEffect(() => {
 
 
                     </CSelect>
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="content">Content</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                  <CKEditor
+                    editor={ ClassicEditor }
+                    name="intro"
+                    data={formik.values.content||""}
+                    onReady={ editor => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log( 'Editor is ready to use!', editor );
+                    } }
+                    onChange={ ( event, editor ) => {
+
+                        const data = editor.getData();
+                        formik.setFieldValue("content",data);
+                       
+                    } }
+
+                />
                   </CCol>
                 </CFormGroup>
 

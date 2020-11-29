@@ -130,9 +130,19 @@ const Users = () => {
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-
-            Users
+          <CRow>
+          <CCol lg={10}>
+            <h3>Users</h3>
             <small className="text-muted"></small>
+          </CCol>
+          <CCol lg={2} className="text-left">
+            <CButton className="text-left" color="info">
+                  <CLink to={`/admin/users/-1`} className="text-white" >
+                   CREATE
+                  </CLink>
+            </CButton>
+          </CCol>
+          </CRow>
           </CCardHeader>
 
           <CCardBody>

@@ -14,10 +14,11 @@ import {
   CButton
 
 } from '@coreui/react'
+
 import CIcon from '@coreui/icons-react'
 import moment from 'moment'
 import CategoryService from "../../api/service/CategoryService.js"
-
+import { freeSet } from '@coreui/icons'
 const Categories = () => {
   const history = useHistory()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
@@ -96,9 +97,19 @@ const Categories = () => {
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-
-            Categories
+          <CRow>
+          <CCol lg={10}>
+            <h3>Categories</h3>
             <small className="text-muted"></small>
+          </CCol>
+          <CCol lg={2} className="text-left">
+            <CButton className="text-left" color="info">
+                  <CLink to={`/admin/categories/-1`} className="text-white" >
+                   CREATE
+                  </CLink>
+            </CButton>
+          </CCol>
+          </CRow>
           </CCardHeader>
 
           <CCardBody>

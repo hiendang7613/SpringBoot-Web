@@ -6,7 +6,6 @@ import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm,
   CInvalidFeedback,
   CTextarea,
   CInput,
-  CInputCheckbox,
   CLabel,
   CSelect,
   CCardFooter,
@@ -17,20 +16,25 @@ import CIcon from '@coreui/icons-react'
 import moment from 'moment'
 import UserService from "../../api/service/UserService.js"
 import { useFormik} from "formik";
-const selectedCheckboxes=new Set();
-const defaulChecked=new Set();
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+
+
+const animatedComponents = makeAnimated();
 
   const User =  (props)  =>  {
-
+    const selectedCheckboxes=[];
+    const [selectedValue, setSelectedValue] = useState([]);
   const [data, setData]=useState([])
    let {email, jobTitle,fullName,phone,imageUrl,intro,status,userName,password,roleCode}=data
   const id =props.match.params.id
 
   const items = [
-    'nguoi-dung',
-    'quan-ly',
-    'admin',
-  ];
+    { value: 'nguoi-dung', label: 'Nguoi dung' },
+    { value: 'quan-ly', label: 'Quan ly' },
+    { value: 'admin', label: 'Admin' }
+  ]
   const formik = useFormik({
     initialValues:{email, jobTitle,fullName,phone,imageUrl,intro,status,userName,password,roleCode},
     enableReinitialize: true,
@@ -48,8 +52,7 @@ useEffect(() => {
     UserService.retrieveUser(id).then((response) => {
       console.log(response.data);
       response.data.role.map((item)=>{
-       selectedCheckboxes.add(item.code)
-       defaulChecked.add(item.code)
+       selectedCheckboxes.push({value:item.code,label:item.name})
        return null
       })
 
@@ -59,19 +62,7 @@ useEffect(() => {
   }
     getUserData()
   }, [id])
-  const isChecked=(label)=>{
-    if (defaulChecked.has(label)){
-      return  defaulChecked.delete(label);
 
-  }
-  }
-  const toggleCheckbox = label => {
-    if (selectedCheckboxes.has(label)) {
-      selectedCheckboxes.delete(label);
-    } else {
-      selectedCheckboxes.add(label);
-    }
-  }
   function onSubmit(values){
     let todo={
       id:id,
@@ -84,9 +75,10 @@ useEffect(() => {
       imageUrl:values.imageUrl,
       intro:values.intro,
       status:values.status?values.status:1,
-      roleCode:Array.from(selectedCheckboxes)
+      roleCode:selectedValue
     }
-   // console.log(todo)
+
+
     if(id==='-1'){
       UserService.createUser(todo)
      .then(() => props.history.push("/admin/users"))
@@ -95,24 +87,12 @@ useEffect(() => {
     .then( () => props.history.push('/admin/users'))
     }
   }
+  const handleSelectChange = (e) => {
+    setSelectedValue(Array.isArray(e) ? e.map(x => x.value) : []);
 
-   const createCheckbox = label => (
-      <CFormGroup key={label} variant="checkbox" className="checkbox">
-                      <CInputCheckbox
-                        id={`checkbox_${label}`}
-                        name={`checkbox_${label}`}
-                        onClick={(e)=>toggleCheckbox(e.target.value)}
-                        value={label}
-                        defaultChecked={isChecked(label)}
+  }
 
-                      />
-                      <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox1">{label}</CLabel>
-                    </CFormGroup>
-    )
 
-    const createCheckboxes = () => (
-      items.map((item)=>createCheckbox(item))
-    )
   return (
     <>
   { id !== '-1' ?(
@@ -260,7 +240,7 @@ useEffect(() => {
                   <CCol md="3">
                     <CLabel htmlFor="intro">Introduction</CLabel>
                   </CCol>
-                  <CCol xs="12" md="9">
+                   <CCol xs="12" md="9">
                     <CTextarea
                       name="intro"
                       id="intro"
@@ -285,26 +265,18 @@ useEffect(() => {
                 <CFormGroup row>
                   <CCol md="3"><CLabel>Role</CLabel></CCol>
                   <CCol md="9">
-                    {/* <CFormGroup variant="checkbox" className="checkbox">
-                      <CInputCheckbox
-                        id="roleCode"
-                        name="roleCode"
-                        onChange={formik.handleChange}
-                        value="nguoi-dung"
-                      />
-                      <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox1">User</CLabel>
-                    </CFormGroup>
-                    <CFormGroup variant="checkbox" className="checkbox">
-                      <CInputCheckbox id="roleCode" name="roleCode" onChange={formik.handleChange} value="quan-ly" />
-                      <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox2">Manager</CLabel>
-                    </CFormGroup>
-                    <CFormGroup variant="checkbox" className="checkbox">
-                      <CInputCheckbox id="roleCode" onChange={formik.handleChange} name="roleCode" value="admin" />
-                      <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox3">Admin</CLabel>
-                    </CFormGroup> */}
-                    {createCheckboxes("ok")}
+                    <Select
+                      closeMenuOnSelect={false}
+                      components={animatedComponents}
+                      defaultValue={selectedCheckboxes}
+                       onChange={(e)=>handleSelectChange(e)}
+                      isMulti
+                      isClearable
+                      options={items}
+                    />
                   </CCol>
                 </CFormGroup>
+
 
 
             </CCardBody>
