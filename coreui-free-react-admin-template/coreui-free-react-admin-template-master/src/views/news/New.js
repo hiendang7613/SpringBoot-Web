@@ -5,6 +5,7 @@ import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm,
   CValidFeedback,
   CInvalidFeedback,
   CTextarea,
+  CInputFile,
   CInput,
   CLabel,
   CCardFooter,
@@ -16,19 +17,23 @@ import CIcon from '@coreui/icons-react'
 import moment from 'moment'
 import NewService from "../../api/service/NewService.js"
 import CategoryService from "../../api/service/CategoryService.js"
+import UploadService from "../../api/service/UploadService.js"
 import { useFormik} from "formik";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+ //import Image from '@ckeditor/ckeditor5-image/src/imageresize/Image';
+ //import ImageResizeEditing from '@ckeditor/ckeditor5-image/src/imageresize/imageresizeediting';
+ //import ImageResizeHandles from '@ckeditor/ckeditor5-image/src/imageresize/imageresizehandles'
   const New =  (props)  =>  {
 
   const [data, setData]=useState([])
   const [category, setCategory]=useState([])
-   let {title,content,shortDescription,thumbnail,status,likes,categoryCode}=data
+   let {title,content,shortDescription,thumbnail,status,likes,categoryCode,photo1}=data
   const id =props.match.params.id
 
 
   const formik = useFormik({
-    initialValues:{title,content,shortDescription,thumbnail,status,likes,categoryCode},
+    initialValues:{title,content,shortDescription,thumbnail,status,likes,categoryCode,photo1},
     enableReinitialize: true,
     onSubmit: values => {onSubmit(values)},
     //  onSubmit: values => {
@@ -62,17 +67,22 @@ useEffect(() => {
   }, [id])
 
   function onSubmit(values){
-    let todo={
-      id:id,
-      title:values.title,
-      content:values.content,
-      shortDescription:values.shortDescription,
-      thumbnail:values.thumbnail,
-      likes:values.likes,
-      status:values.status,
-      categoryCode:values.categoryCode
 
-    }
+    console.log(values.thumbnail)
+    UploadService.uploadFile(values.thumbnail)
+    .then((res)=>{
+      console.log(res);
+      let todo={
+        id:id,
+        title:values.title,
+        content:values.content,
+        shortDescription:values.shortDescription,
+        thumbnail:res.fileName,
+        likes:values.likes,
+        status:values.status,
+        categoryCode:values.categoryCode
+
+      }
     if(id === '-1'){
       NewService.createNew(todo)
      .then(() => props.history.push("/admin/news"))
@@ -80,6 +90,8 @@ useEffect(() => {
       NewService.updateNew(id,todo)
     .then(() => props.history.push('/admin/news'))
     }
+  })
+
   }
 
   return (
@@ -172,7 +184,7 @@ useEffect(() => {
                     <CFormText></CFormText>
                   </CCol>
                 </CFormGroup>
-                <CFormGroup row>
+                {/* <CFormGroup row>
                   <CCol md="3">
                     <CLabel htmlFor="thumbnail">Thumbnail</CLabel>
                   </CCol>
@@ -180,6 +192,16 @@ useEffect(() => {
                     <CInput id="thumbnail" name="thumbnail" placeholder="thumbnail" onChange={formik.handleChange}
              value={formik.values.thumbnail|| ""} />
                     <CFormText></CFormText>
+                  </CCol>
+                </CFormGroup> */}
+                 <CFormGroup row>
+                  <CLabel col md="3" htmlFor="thumbnail">File input</CLabel>
+                  <CCol xs="12" md="9">
+                    <CInputFile id="thumbnail" name="thumbnail"
+                    onChange={(event) =>{
+                      formik.setFieldValue("thumbnail", event.currentTarget.files[0]);
+                    }}
+                    />
                   </CCol>
                 </CFormGroup>
 
@@ -230,6 +252,13 @@ useEffect(() => {
                     editor={ ClassicEditor }
                     name="intro"
                     data={formik.values.content||""}
+                    config={
+                      {
+
+                        ckfinder:{
+                          uploadUrl:'http://localhost:8081/ckfinder/connector?command=FileUpload&type=Files&currentFolder=/'}
+                      }
+                    }
                     onReady={ editor => {
                         // You can store the "editor" and use when it is needed.
                         console.log( 'Editor is ready to use!', editor );
@@ -238,12 +267,13 @@ useEffect(() => {
 
                         const data = editor.getData();
                         formik.setFieldValue("content",data);
-                       
+
                     } }
 
                 />
                   </CCol>
                 </CFormGroup>
+
 
 
 

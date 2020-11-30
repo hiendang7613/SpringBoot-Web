@@ -85,8 +85,8 @@ const routes = [
   { path: '/admin/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/admin/categories', exact: true,  name: 'Categories', component: Categories },
   { path: '/admin/categories/:id', exact: true, name: 'Category Details', component: Category },
-  { path: '/admin/news', exact: true,  name: 'Categories', component: News },
-  { path: '/admin/news/:id', exact: true, name: 'Category Details', component: New }
+  { path: '/admin/news', exact: true,  name: 'News', component: News },
+  { path: '/admin/news/:id', exact: true, name: 'New Details', component: New }
 ];
 
 export default routes;
