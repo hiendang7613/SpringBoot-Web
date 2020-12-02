@@ -65,11 +65,5 @@ public class CommentEntity extends BaseEntity {
         this.likes = likes;
     }
 
-    public List<CommentChildEntity> getCommentChilds() {
-        return commentChilds;
-    }
 
-    public void setCommentChilds(List<CommentChildEntity> commentChilds) {
-        this.commentChilds = commentChilds;
-    }
 }
