@@ -16,9 +16,15 @@ public class UserOutPut {
 	private String keyword;
 	private Date startdate;
 	private Date enddate;
+	private UserDTO userDto;
 	
 	
-	
+	public UserDTO getUserDto() {
+		return userDto;
+	}
+	public void setUserDto(UserDTO userDto) {
+		this.userDto = userDto;
+	}
 	public Date getStartdate() {
 		return startdate;
 	}

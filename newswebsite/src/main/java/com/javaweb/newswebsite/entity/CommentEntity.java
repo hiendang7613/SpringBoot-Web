@@ -23,8 +23,16 @@ public class CommentEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "commentEntity")
     private List<CommentChildEntity> commentChilds=new ArrayList<>();
+    
+    public List<CommentChildEntity> getCommentChilds() {
+		return commentChilds;
+	}
 
-    public String getContent() {
+	public void setCommentChilds(List<CommentChildEntity> commentChilds) {
+		this.commentChilds = commentChilds;
+	}
+
+	public String getContent() {
         return content;
     }
 

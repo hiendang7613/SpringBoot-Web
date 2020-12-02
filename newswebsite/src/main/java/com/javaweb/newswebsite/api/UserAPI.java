@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.javaweb.newswebsite.dto.NewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -104,5 +103,36 @@ public class UserAPI {
 		userOut.setListUser(service.findAllByCreatedDateBetween(sDate, eDate));
 		userOut.setTotalUser(userOut.getListUser().size());
 		return userOut;
+	}
+	
+	@PostMapping(value = "/user/register")
+	public UserDTO registerUser(@RequestBody UserDTO model) {
+		model.setRoleCode(new String[] {"khach-hang"});
+		return service.register(model);
+	}
+	
+	@PutMapping(value = "/user/edit/{id}")
+	public UserDTO editProfile(@RequestBody UserDTO model, @PathVariable("id") long id) {
+		model.setId(id);
+		model.setRoleCode(new String[] {"khach-hang"});
+		return service.save(model);
+	}
+	
+	@PutMapping(value = "/user/changePassword/{id}")
+	public UserDTO changePassword(@RequestBody UserDTO model, @PathVariable("id") long id) {
+		model.setId(id);
+		return service.changPassword(model);
+	}
+	
+	@PostMapping(value = "/user/login")
+	public UserOutPut loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password,
+			HttpServletRequest request) {
+
+		UserOutPut userOut = new UserOutPut();
+		if (service.login(userName, password) != null) {
+			userOut.setUserDto(service.login(userName, password));
+			return userOut;
+		}
+		return null;
 	}
 }

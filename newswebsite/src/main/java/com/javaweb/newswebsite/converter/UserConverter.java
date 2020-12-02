@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.javaweb.newswebsite.dto.RoleDTO;
@@ -87,4 +86,11 @@ public class UserConverter {
 		userEntity.setRoles(enties);
 		return userEntity;
 	}
+	
+	public UserEntity changePassword(UserDTO userDto, UserEntity userEntity) {
+		userEntity.setPassword(userDto.getPassword());
+		return userEntity;
+	}
+	
+	
 }
