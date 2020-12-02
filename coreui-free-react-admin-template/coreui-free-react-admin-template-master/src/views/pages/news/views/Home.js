@@ -1,27 +1,73 @@
-import React from 'react'
-
+import React,{ useState, useEffect } from 'react'
+import CategoryService from "../../../../api/service/CategoryService.js"
+import NewService from "../../../../api/service/NewService.js"
+import {IMAGES_URL,THUMBNAIL_URL} from "../../../../Constants"
+import moment from 'moment'
+import {
+  CLink
+} from '@coreui/react'
 const Home = () => {
+  const [categories, setCategories]=useState([])
+  const [news, setNews]=useState([])
+  const [news2, setNews2]=useState([])
+  const [news3, setNews3]=useState([])
+
+  console.log(news)
+  useEffect(() => {
+    getCategoryData()
+    getNewData()
+    getNew2Data()
+
+  }, [])
+  function getCategoryData(){
+
+    CategoryService.retrieveAllCategories().then((response) => {
+      console.log(response.data);
+      setCategories(response.data);
+    })
+    .catch((err)=>{
+      alert(err.message);
+    });
+  }
+  function getNewData(){
+
+    NewService.retrieveAllNewsWithStatus(1,3,1).then((response) => {
+      setNews(response.data.listResult);
+    })
+    .catch((err)=>{
+      alert(err.message);
+    });
+  }
+  function getNew2Data(){
+
+    NewService.retrieveAllNewsWithStatus(1,8,1).then((response) => {
+      setNews2(response.data.listResult);
+    })
+    .catch((err)=>{
+      alert(err.message);
+    });
+  }
+
   return (
     <>
      <div className="row" >
               <div className="col-xl-8 stretch-card grid-margin">
                 <div className="position-relative">
                   <img
-                    src="assets/images/dashboard/banner.jpg"
+                    src={news[0] &&`${IMAGES_URL}/${news[0].thumbnail}`}
                     alt="banner"
                     className="img-fluid"
                   />
                   <div className="banner-content">
                     <div className="badge badge-danger fs-12 font-weight-bold mb-3">
-                      global news
+                    HOT
                     </div>
-                    <h1 className="mb-0">GLOBAL PANDEMIC</h1>
-                    <h1 className="mb-2">
-                      Coronavirus Outbreak LIVE Updates: ICSE, CBSE Exams
-                      Postponed, 168 Trains
-                    </h1>
+                    <h1 className="mb-0">{news[0] &&`${news[0].title}`}</h1>
+                    <h3 className="mb-2">
+                    {news[0] &&`${news[0].shortDescription}`}
+                    </h3>
                     <div className="fs-12">
-                      <span className="mr-2">Photo </span>10 Minutes ago
+                      <span className="mr-2">{news[0] &&`${news[0].categoryCode}`} </span>{news[0]&&moment(news[0].createdDate).fromNow()}
                     </div>
                   </div>
                 </div>
@@ -29,61 +75,36 @@ const Home = () => {
               <div className="col-xl-4 stretch-card grid-margin">
                 <div className="card bg-dark text-white">
                   <div className="card-body">
-                    <h2>Latest news</h2>
-
-                    <div
+                    <h2>Tin mới</h2>
+                    {
+                      news.map((row)=>(
+                        <div key={row.id}
                       className="d-flex border-bottom-blue pt-3 pb-4 align-items-center justify-content-between"
                     >
                       <div className="pr-3">
-                        <h5>Virus Kills Member Of Advising Iran’s Supreme</h5>
-                        <div className="fs-12">
-                          <span className="mr-2">Photo </span>10 Minutes ago
+                        <h5 style={{overflow: 'hidden', textOverflow: 'ellipsis',width:'150px'}}>{row.title} </h5>
+                        <div className="fs-12" >
+                          <span className="mr-2">{row.categoryCode}</span>{row&&moment(row.createdDate).fromNow()}
                         </div>
                       </div>
-                      <div className="rotate-img">
-                        <img
-                          src="assets/images/dashboard/home_1.jpg"
+                      <div className="rotate-img" >
+                      <CLink className="nav-link" to="/register">
+                      <img intrinsicsize="100x50"
+                          height="100"
+                          width="50"
+                          src={`${THUMBNAIL_URL}${row.thumbnail}&size=150x150`}
                           alt="thumb"
                           className="img-fluid img-lg"
                         />
-                      </div>
-                    </div>
+                        </CLink>
 
-                    <div
-                      className="d-flex border-bottom-blue pb-4 pt-4 align-items-center justify-content-between"
-                    >
-                      <div className="pr-3">
-                        <h5>Virus Kills Member Of Advising Iran’s Supreme</h5>
-                        <div className="fs-12">
-                          <span className="mr-2">Photo </span>10 Minutes ago
-                        </div>
-                      </div>
-                      <div className="rotate-img">
-                        <img
-                          src="assets/images/dashboard/home_2.jpg"
-                          alt="thumb"
-                          className="img-fluid img-lg"
-                        />
                       </div>
                     </div>
+                      )
+                      )
+                    }
 
-                    <div
-                      className="d-flex pt-4 align-items-center justify-content-between"
-                    >
-                      <div className="pr-3">
-                        <h5>Virus Kills Member Of Advising Iran’s Supreme</h5>
-                        <div className="fs-12">
-                          <span className="mr-2">Photo </span>10 Minutes ago
-                        </div>
-                      </div>
-                      <div className="rotate-img">
-                        <img
-                          src="assets/images/dashboard/home_3.jpg"
-                          alt="thumb"
-                          className="img-fluid img-lg"
-                        />
-                      </div>
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -94,329 +115,58 @@ const Home = () => {
                   <div className="card-body">
                     <h2>Category</h2>
                     <ul className="vertical-menu">
-                      <li><a href="#">Politics</a></li>
-                      <li><a href="#">International</a></li>
-                      <li><a href="#">Finance</a></li>
-                      <li><a href="#">Health care</a></li>
-                      <li><a href="#">Technology</a></li>
-                      <li><a href="#">Jobs</a></li>
-                      <li><a href="#">Media</a></li>
-                      <li><a href="#">Administration</a></li>
-                      <li><a href="#">Sports</a></li>
-                      <li><a href="#">Game</a></li>
-                      <li><a href="#">Art</a></li>
-                      <li><a href="#">Kids</a></li>
+                      {
+                        categories.map((row)=>(
+                        <li key={row.id}><a href="#">{row.name}</a></li>)
+                        )
+                      }
                     </ul>
                   </div>
                 </div>
               </div>
               <div className="col-lg-9 stretch-card grid-margin">
                 <div className="card">
+
                   <div className="card-body">
-                    <div className="row">
+                  {
+                      news2.map((row)=>(
+                        <div className="row" key={row.id}>
                       <div className="col-sm-4 grid-margin">
                         <div className="position-relative">
                           <div className="rotate-img">
                             <img
-                              src="assets/images/dashboard/home_4.jpg"
+                              src={`${THUMBNAIL_URL}${row.thumbnail}&size=300x300`}
                               alt="thumb"
                               className="img-fluid"
                             />
                           </div>
                           <div className="badge-positioned">
                             <span className="badge badge-danger font-weight-bold"
-                              >Flash news</span
+                              >{row.categoryCode}</span
                             >
                           </div>
                         </div>
                       </div>
                       <div className="col-sm-8  grid-margin">
                         <h2 className="mb-2 font-weight-600">
-                          South Korea’s Moon Jae-in sworn in vowing to address
-                          North
+                        {row.title}
                         </h2>
                         <div className="fs-13 mb-2">
-                          <span className="mr-2">Photo </span>10 Minutes ago
+                          <span className="mr-2">{row.categoryCode}</span>{moment(row.createdDate).fromNow()}
                         </div>
                         <p className="mb-0">
-                          Lorem Ipsum has been the industry's standard dummy
-                          text ever since the 1500s, when an
+                        {row.shortDescription}
                         </p>
                       </div>
                     </div>
-
-                    <div className="row">
-                      <div className="col-sm-4 grid-margin">
-                        <div className="position-relative">
-                          <div className="rotate-img">
-                            <img
-                              src="assets/images/dashboard/home_5.jpg"
-                              alt="thumb"
-                              className="img-fluid"
-                            />
-                          </div>
-                          <div className="badge-positioned">
-                            <span className="badge badge-danger font-weight-bold"
-                              >Flash news</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-sm-8  grid-margin">
-                        <h2 className="mb-2 font-weight-600">
-                          No charges over 2017 Conservative battle bus cases
-                        </h2>
-                        <div className="fs-13 mb-2">
-                          <span className="mr-2">Photo </span>10 Minutes ago
-                        </div>
-                        <p className="mb-0">
-                          Lorem Ipsum has been the industry's standard dummy
-                          text ever since the 1500s, when an
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-sm-4">
-                        <div className="position-relative">
-                          <div className="rotate-img">
-                            <img
-                              src="assets/images/dashboard/home_6.jpg"
-                              alt="thumb"
-                              className="img-fluid"
-                            />
-                          </div>
-                          <div className="badge-positioned">
-                            <span className="badge badge-danger font-weight-bold"
-                              >Flash news</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-sm-8">
-                        <h2 className="mb-2 font-weight-600">
-                          Kaine: Trump Jr. may have committed treason
-                        </h2>
-                        <div className="fs-13 mb-2">
-                          <span className="mr-2">Photo </span>10 Minutes ago
-                        </div>
-                        <p className="mb-0">
-                          Lorem Ipsum has been the industry's standard dummy
-                          text ever since the 1500s, when an
-                        </p>
-                      </div>
-                    </div>
+                      ))
+                  }
                   </div>
+
                 </div>
               </div>
             </div>
-            <div className="row" >
-              <div className="col-sm-12 grid-margin">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-lg-8">
-                        <div className="card-title">
-                          Video
-                        </div>
-                        <div className="row">
-                          <div className="col-sm-6 grid-margin">
-                            <div className="position-relative">
-                              <div className="rotate-img">
-                                <img
-                                  src="assets/images/dashboard/home_7.jpg"
-                                  alt="thumb"
-                                  className="img-fluid"
-                                />
-                              </div>
-                              <div className="badge-positioned w-90">
-                                <div
-                                  className="d-flex justify-content-between align-items-center"
-                                >
-                                  <span
-                                    className="badge badge-danger font-weight-bold"
-                                    >Lifestyle</span
-                                  >
-                                  <div className="video-icon">
-                                    <i className="mdi mdi-play"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
 
-                          <div className="col-sm-6 grid-margin">
-                            <div className="position-relative">
-                              <div className="rotate-img">
-                                <img
-                                  src="assets/images/dashboard/home_8.jpg"
-                                  alt="thumb"
-                                  className="img-fluid"
-                                />
-                              </div>
-                              <div className="badge-positioned w-90">
-                                <div
-                                  className="d-flex justify-content-between align-items-center"
-                                >
-                                  <span
-                                    className="badge badge-danger font-weight-bold"
-                                    >National News</span
-                                  >
-                                  <div className="video-icon">
-                                    <i className="mdi mdi-play"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-sm-6 grid-margin">
-                            <div className="position-relative">
-                              <div className="rotate-img">
-                                <img
-                                  src="assets/images/dashboard/home_9.jpg"
-                                  alt="thumb"
-                                  className="img-fluid"
-                                />
-                              </div>
-                              <div className="badge-positioned w-90">
-                                <div
-                                  className="d-flex justify-content-between align-items-center"
-                                >
-                                  <span
-                                    className="badge badge-danger font-weight-bold"
-                                    >Lifestyle</span
-                                  >
-                                  <div className="video-icon">
-                                    <i className="mdi mdi-play"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col-sm-6 grid-margin">
-                            <div className="position-relative">
-                              <div className="rotate-img">
-                                <img
-                                  src="assets/images/dashboard/home_10.jpg"
-                                  alt="thumb"
-                                  className="img-fluid"
-                                />
-                              </div>
-                              <div className="badge-positioned w-90">
-                                <div
-                                  className="d-flex justify-content-between align-items-center"
-                                >
-                                  <span
-                                    className="badge badge-danger font-weight-bold"
-                                    >National News</span
-                                  >
-                                  <div className="video-icon">
-                                    <i className="mdi mdi-play"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-4">
-                        <div
-                          className="d-flex justify-content-between align-items-center"
-                        >
-                          <div className="card-title">
-                            Latest Video
-                          </div>
-                          <p className="mb-3">See all</p>
-                        </div>
-                        <div
-                          className="d-flex justify-content-between align-items-center border-bottom pb-2"
-                        >
-                          <div className="div-w-80 mr-3">
-                            <div className="rotate-img">
-                              <img
-                                src="assets/images/dashboard/home_11.jpg"
-                                alt="thumb"
-                                className="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <h3 className="font-weight-600 mb-0">
-                            Apple Introduces Apple Watch
-                          </h3>
-                        </div>
-                        <div
-                          className="d-flex justify-content-between align-items-center border-bottom pt-3 pb-2"
-                        >
-                          <div className="div-w-80 mr-3">
-                            <div className="rotate-img">
-                              <img
-                                src="assets/images/dashboard/home_12.jpg"
-                                alt="thumb"
-                                className="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <h3 className="font-weight-600 mb-0">
-                            SEO Strategy & Google Search
-                          </h3>
-                        </div>
-                        <div
-                          className="d-flex justify-content-between align-items-center border-bottom pt-3 pb-2"
-                        >
-                          <div className="div-w-80 mr-3">
-                            <div className="rotate-img">
-                              <img
-                                src="assets/images/dashboard/home_13.jpg"
-                                alt="thumb"
-                                className="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <h3 className="font-weight-600 mb-0">
-                            Cycling benefit & disadvantag
-                          </h3>
-                        </div>
-                        <div
-                          className="d-flex justify-content-between align-items-center border-bottom pt-3 pb-2"
-                        >
-                          <div className="div-w-80 mr-3">
-                            <div className="rotate-img">
-                              <img
-                                src="assets/images/dashboard/home_14.jpg"
-                                alt="thumb"
-                                className="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <h3 className="font-weight-600">
-                            The Major Health Benefits of
-                          </h3>
-                        </div>
-                        <div
-                          className="d-flex justify-content-between align-items-center pt-3"
-                        >
-                          <div className="div-w-80 mr-3">
-                            <div className="rotate-img">
-                              <img
-                                src="assets/images/dashboard/home_15.jpg"
-                                alt="thumb"
-                                className="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <h3 className="font-weight-600 mb-0">
-                            Powerful Moments of Peace
-                          </h3>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="row" >
               <div className="col-sm-12">
                 <div className="card">

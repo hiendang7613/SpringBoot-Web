@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,8 +26,10 @@ public class NewAPI {
     @GetMapping(value = "/new")
     public NewOutput showNew(@RequestParam("page") int page,
                              @RequestParam("limit") int limit,
-                             @RequestParam(name = "sortBy", required = false, defaultValue = "ASC") String sortBy,
-                             @RequestParam(name = "sortName", required = false, defaultValue = "title") String sortName,
+                             @RequestParam(name ="status", required = false) Integer categoryCode,
+                             @RequestParam(name ="status", required = false) Integer status,
+                             @RequestParam(name = "sortBy", required = false, defaultValue = "DESC") String sortBy,
+                             @RequestParam(name = "sortName", required = false, defaultValue = "createdDate") String sortName,
                              HttpServletRequest request) {
 
         NewOutput model = new NewOutput();
@@ -39,14 +42,23 @@ public class NewAPI {
         } else {
             pageable =  PageRequest.of(page - 1, limit, Sort.by(model.getSortName()).descending());
         }
-        model.setListResult(newService.findAll(pageable));
+        if(status==null){
+            model.setListResult(newService.findAll(pageable));
+        }else{
+            model.setListResult(newService.findAllByStatus(pageable));
+        }
+
         model.setTotalItem(newService.totalItem());
         model.setTotalPage((int) Math.ceil((double) model.getTotalItem() / limit));
         return model;
     }
     @GetMapping(value = "/new/{id}")
-    public NewDTO getEmployeeById(@PathVariable("id") Long id){
+    public NewDTO getNewById(@PathVariable("id") Long id){
         return newService.findById(id);
+    }
+    @GetMapping(value = "/new/category/{code}")
+    public List<NewDTO> getNewById(@PathVariable("code") String code){
+        return newService.findAllByCategoryAndStatus(code,1);
     }
 
     @GetMapping(value = "/new/find")

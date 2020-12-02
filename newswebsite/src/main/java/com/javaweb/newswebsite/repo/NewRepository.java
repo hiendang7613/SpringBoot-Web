@@ -2,6 +2,8 @@ package com.javaweb.newswebsite.repo;
 
 
 import com.javaweb.newswebsite.entity.NewEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
@@ -14,6 +16,6 @@ public interface NewRepository extends JpaRepository<NewEntity,Long> {
          Date publicationTimeStart,
          Date publicationTimeEnd);
 
-
+ Page<NewEntity> findAllByStatus(Pageable var1,Integer status);
 }
 

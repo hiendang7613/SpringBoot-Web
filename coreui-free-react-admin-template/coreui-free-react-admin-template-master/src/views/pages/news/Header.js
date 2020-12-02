@@ -1,6 +1,8 @@
 import React from 'react'
 
-
+import {
+  CLink
+} from '@coreui/react'
 const Home = (props) => {
 
   return (
@@ -33,10 +35,14 @@ const Home = (props) => {
                       <a href="" className="nav-link"><i className="mdi mdi-magnify"></i></a>
                     </li>
                     <li className="nav-item">
-                      <a href="" className="nav-link">Login</a>
+                    <CLink className="nav-link" href="/login">
+                      Login
+                    </CLink>
                     </li>
                     <li className="nav-item">
-                      <a href="#" className="nav-link">Sign in</a>
+                    <CLink className="nav-link" href="/register">
+                      Register
+                    </CLink>
                     </li>
                   </ul>
                 </div>
@@ -75,25 +81,18 @@ const Home = (props) => {
                           <a className="nav-link" href="index.html">Home</a>
                         </li>
                         <li className="nav-item">
-                          <a className="nav-link" href="pages/magazine.html">MAGAZINE</a>
+                        <CLink className="nav-link" to="/register">
+                          TIN TỨC
+                        </CLink>
                         </li>
                         <li className="nav-item">
-                          <a className="nav-link" href="pages/business.html">Business</a>
+                          <a className="nav-link" href="pages/business.html">THỂ THAO</a>
                         </li>
                         <li className="nav-item">
-                          <a className="nav-link" href="pages/sports.html">Sports</a>
+                          <a className="nav-link" href="pages/sports.html">CÔNG NGHỆ</a>
                         </li>
                         <li className="nav-item">
-                          <a className="nav-link" href="pages/art.html">Art</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="pages/politics.html">POLITICS</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="pages/travel.html">Travel</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="pages/contactus.html">Contact</a>
+                          <a className="nav-link" href="pages/contactus.html">ABOUT US</a>
                         </li>
                       </ul>
                     </div>

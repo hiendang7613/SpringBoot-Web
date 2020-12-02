@@ -12,6 +12,8 @@ public interface INewService {
     NewDTO save(NewDTO newDTO);
     void delete(Long[] ids);
      List<NewDTO> findAll(Pageable pageable);
+    List<NewDTO> findAllByStatus(Pageable pageable);
+    List<NewDTO> findAllByCategoryAndStatus(String categoryCode,Integer status);
         NewDTO findById(Long id);
      int totalItem();
     List<NewDTO> findAllByCreatedDateBetween(

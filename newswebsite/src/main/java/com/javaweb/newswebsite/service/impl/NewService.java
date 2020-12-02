@@ -58,6 +58,30 @@ public class NewService implements INewService {
     }
 
     @Override
+    public List<NewDTO> findAllByStatus(Pageable pageable) {
+        List<NewDTO> results = new ArrayList<>();
+        List<NewEntity> entities = newRepository.findAllByStatus(pageable,1).getContent();
+        for (NewEntity item: entities) {
+            NewDTO newDTO = newConverter.toDTO(item);
+            results.add(newDTO);
+        }
+        return results;
+    }
+
+    @Override
+    public List<NewDTO> findAllByCategoryAndStatus(String categoryCode, Integer status) {
+        List<NewDTO> results = new ArrayList<>();
+        ;
+        List<NewEntity> entities = categoryRepository.findCategoryByCode(categoryCode).get().getNews();
+        for (NewEntity item: entities) {
+            NewDTO newDTO = newConverter.toDTO(item);
+            results.add(newDTO);
+        }
+        return results;
+    }
+
+
+    @Override
     public NewDTO findById(Long id) {
         NewEntity entity= newRepository.findNewById(id).get();
         return newConverter.toDTO(entity);

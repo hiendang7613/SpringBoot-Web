@@ -34,7 +34,7 @@ const TheContent = (props) => {
                   )} />
               )
             })}
-             <Redirect from="/" to="/home" />
+             {/* <Redirect from="/" to="/home" /> */}
           </Switch>
         </Suspense>
 

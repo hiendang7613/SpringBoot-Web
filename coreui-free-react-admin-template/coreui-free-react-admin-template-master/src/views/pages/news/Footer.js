@@ -15,23 +15,7 @@ const Footer = (props) => {
                     provide you with the latest breaking news and videos straight from
                     the entertainment industry.
                   </h5>
-                  <ul className="social-media mb-3">
-                    <li>
-                      <a href="#">
-                        <i className="mdi mdi-facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="mdi mdi-youtube"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="mdi mdi-twitter"></i>
-                      </a>
-                    </li>
-                  </ul>
+                  
                 </div>
                 <div className="col-sm-4">
                   <h3 className="font-weight-bold mb-3">RECENT POSTS</h3>

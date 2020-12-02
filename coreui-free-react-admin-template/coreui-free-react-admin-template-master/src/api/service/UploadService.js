@@ -5,7 +5,7 @@ class UploadService {
     let data = new FormData();
     data.append("upload", values);
 
-    return  Axios.post(`${API_URL}/ckfinder/connector?command=FileUpload&type=Files&currentFolder=/`,data,{
+    return  Axios.post(`${API_URL}/ckfinder/connector?command=FileUpload&type=Images&currentFolder=/`,data,{
       headers: {
           'content-type': 'multipart/form-data'
       }
