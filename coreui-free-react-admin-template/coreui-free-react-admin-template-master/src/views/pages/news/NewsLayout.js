@@ -20,7 +20,7 @@ const NewsLayout = () => {
     <div className="container-scroller">
       <div className="main-panel">
       <Header/>
-      
+
         <div className="content-wrapper">
           <div className="container">
         <TheContent/>

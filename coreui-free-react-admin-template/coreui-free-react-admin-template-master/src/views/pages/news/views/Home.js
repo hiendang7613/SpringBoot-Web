@@ -53,7 +53,7 @@ const Home = () => {
      <div className="row" >
               <div className="col-xl-8 stretch-card grid-margin">
                 <div className="position-relative">
-                <CLink className="nav-link" href={`/details/${item.id}`}>
+                <CLink  href={news[0] &&`/details/${news[0].id}`}>
                   <img
                     src={news[0] &&`${IMAGES_URL}/${news[0].thumbnail}`}
                     alt="banner"
@@ -63,7 +63,7 @@ const Home = () => {
                     <div className="badge badge-danger fs-12 font-weight-bold mb-3">
                     HOT
                     </div>
-                    <CLink className="nav-link" href={`/details/${item.id}`}>
+                    <CLink className="text-white"   href={news[0] &&`/details/${news[0].id}`}>
                     <h1 className="mb-0">{news[0] &&`${news[0].title}`}</h1></CLink>
                     <h3 className="mb-2">
                     {news[0] &&`${news[0].shortDescription}`}
@@ -84,7 +84,7 @@ const Home = () => {
                       className="d-flex border-bottom-blue pt-3 pb-4 align-items-center justify-content-between"
                     >
                       <div className="pr-3">
-                      <CLink className="nav-link" href={`/details/${item.id}`}>
+                      <CLink className="text-white" href={`/details/${row.id}`}>
                         <h5 style={{overflow: 'hidden', textOverflow: 'ellipsis',width:'150px'}}>{row.title} </h5>
                         </CLink>
                         <div className="fs-12" >
@@ -92,7 +92,7 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="rotate-img" >
-                      <CLink className="nav-link" href={`/details/${item.id}`}>
+                      <CLink className="nav-link" href={`/details/${row.id}`}>
                       <img intrinsicsize="100x50"
                           height="100"
                           width="50"
@@ -138,7 +138,7 @@ const Home = () => {
                       <div className="col-sm-4 grid-margin">
                         <div className="position-relative">
                           <div className="rotate-img">
-                          <CLink className="nav-link" href={`/details/${item.id}`}>
+                          <CLink className="nav-link" href={`/details/${row.id}`}>
                             <img
                               src={`${THUMBNAIL_URL}${row.thumbnail}&size=300x300`}
                               alt="thumb"
@@ -154,7 +154,7 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="col-sm-8  grid-margin">
-                      <CLink className="nav-link" href={`/details/${item.id}`}>
+                      <CLink className="text-dark" href={`/details/${row.id}`}>
                         <h2 className="mb-2 font-weight-600">
                         {row.title}
                         </h2>

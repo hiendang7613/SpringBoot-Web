@@ -14,21 +14,6 @@ const Home = (props) => {
               <div className="navbar-top">
                 <div className="d-flex justify-content-between align-items-center">
                   <ul className="navbar-top-left-menu">
-                    <li className="nav-item">
-                      <a href="pages/index-inner.html" className="nav-link">Advertise</a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="pages/aboutus.html" className="nav-link">About</a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="" className="nav-link">Events</a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="" className="nav-link">Write for Us</a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="" className="nav-link">In the Press</a>
-                    </li>
                   </ul>
                   <ul className="navbar-top-right-menu">
                     <li className="nav-item">

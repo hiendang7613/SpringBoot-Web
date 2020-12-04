@@ -28,6 +28,7 @@ public class CommentEntity extends BaseEntity {
     @JoinColumn(name = "userid")
     private UserEntity userEntity;
 
+
     public UserEntity getUserEntity() {
         return userEntity;
     }

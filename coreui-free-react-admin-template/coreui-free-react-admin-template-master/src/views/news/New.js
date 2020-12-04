@@ -287,7 +287,7 @@ const New = (props) => {
               </CCardBody>
               <CCardFooter>
                 <CButton className="" type="submit" size="sm" color="primary"><CIcon name="cil-scrubber" /> Submit</CButton>
-                <CButton type="reset" size="sm" color="danger"><CIcon name="cil-ban" /> Reset</CButton>
+                
               </CCardFooter>
             </CForm>
           </CCard>

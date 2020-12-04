@@ -2,6 +2,8 @@ import React ,{ useState, useEffect } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm,
   CFormGroup,
   CFormText,
+  CValidFeedback,
+  CSelect,
   CInput,
   CLabel,
   CCardFooter,
@@ -10,17 +12,17 @@ import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import moment from 'moment'
-import CategoryService from "../../api/service/CategoryService.js"
+import CommentService from "../../api/service/CommentService.js"
 import { useFormik} from "formik";
   const Category =  (props)  =>  {
 
   const [data, setData]=useState([])
-   let {name,code}=data
+   let {content,status,newId}=data
   const id =props.match.params.id
 
 
   const formik = useFormik({
-    initialValues:{name,code},
+    initialValues:{content,status,newId},
     enableReinitialize: true,
      onSubmit: values => {onSubmit(values)},
     //  onSubmit: values => {
@@ -31,31 +33,33 @@ import { useFormik} from "formik";
 
 
 useEffect(() => {
-  function getCategoryData(){
+  function getCommentData(){
     if(id !== '-1'){
-    CategoryService.retrieveCategory(id).then((response) => {
+      CommentService.retrieveComment(id).then((response) => {
       setData(response.data);
     })
   }
 
   }
-  getCategoryData()
+  getCommentData()
 
   }, [id])
 
   function onSubmit(values){
     let todo={
       id:id,
-      name:values.name,
-      code:values.code,
+      content:values.content,
+      status: values.status || 1,
+      newId: values.newId,
+
 
     }
     if(id === '-1'){
-      CategoryService.createCategory(todo)
-     .then(() => props.history.push("/admin/categories"))
+      CommentService.createComment(todo)
+     .then(() => props.history.push("/admin/comments"))
     }else{
-      CategoryService.updateCategory(id,todo)
-    .then(() => props.history.push('/admin/categories'))
+      CommentService.updateCommenty(id,todo)
+    .then(() => props.history.push('/admin/comments'))
     }
   }
 
@@ -76,13 +80,17 @@ useEffect(() => {
                      (
                        <>
                         <tr key={data.id}>
-                        <td>Name</td>
-                        <td><strong>{data.name}</strong></td>
+                        <td>Id</td>
+                        <td><strong>{data.id}</strong></td>
                         </tr>
 
                         <tr >
-                        <td>Code</td>
-                        <td><strong>{data.code}</strong></td>
+                        <td>Content</td>
+                        <td><strong>{data.content}</strong></td>
+                        </tr>
+                        <tr >
+                        <td>NewId</td>
+                        <td><strong>{data.newId}</strong></td>
                         </tr>
 
 
@@ -118,22 +126,34 @@ useEffect(() => {
             <CCardBody>
               <CFormGroup row>
                   <CCol md="3">
-                    <CLabel htmlFor="name">Name</CLabel>
+                    <CLabel htmlFor="content">Content</CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput id="name" name="name" placeholder="name" onChange={formik.handleChange}
-             value={formik.values.name|| ""} />
+                    <CInput id="content" name="content" placeholder="content" onChange={formik.handleChange}
+             value={formik.values.content|| ""} />
                     <CFormText></CFormText>
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel htmlFor="code">Code</CLabel>
+                    <CLabel htmlFor="newId">NewId</CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput id="code" name="code" placeholder="code" onChange={formik.handleChange}
-             value={formik.values.code|| ""} />
+                    <CInput id="newId" name="newId" placeholder="newId" onChange={formik.handleChange}
+             value={formik.values.newId|| ""} />
                     <CFormText></CFormText>
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="select">Status</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CSelect custom name="status" id="status" onChange={formik.handleChange} value={`${formik.values.status}`|| "1"}>
+                      <option value="1">Active</option>
+                      <option value="2">Pending</option>
+                      <option value="3">Banned</option>
+                    </CSelect>
                   </CCol>
                 </CFormGroup>
 

@@ -4,7 +4,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-import { CContainer, CFade } from '@coreui/react'
+import {  CFade } from '@coreui/react'
 
 // routes config
 import routes from './routes'
@@ -34,7 +34,7 @@ const TheContent = (props) => {
                   )} />
               )
             })}
-             {/* <Redirect from="/" to="/home" /> */}
+             <Redirect from="/" to="/home" />
           </Switch>
         </Suspense>
 

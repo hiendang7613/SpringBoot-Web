@@ -28,7 +28,7 @@ public class CommentService implements ICommentService {
 	
 	@Override
 	public CommentDTO save(CommentDTO commentDto) {
-		NewEntity newEntity = newRepository.findNewById(commentDto.getNewCode()).get();
+		NewEntity newEntity = newRepository.findNewById(commentDto.getNewId()).get();
 		CommentEntity newCommentEntity = new CommentEntity();
 		if(commentDto.getId() != null) {
 			CommentEntity oldCommentEntity = commentRepository.findCommentById(commentDto.getId()).get();
@@ -52,7 +52,7 @@ public class CommentService implements ICommentService {
 	}
 
 	@Override
-	public List<CommentDTO> findALL(Pageable pageable) {
+	public List<CommentDTO> findAll(Pageable pageable) {
 		List<CommentDTO> results = new ArrayList<>();
         List<CommentEntity> entities = commentRepository.findAll(pageable).getContent();
         for (CommentEntity item: entities) {
@@ -61,11 +61,22 @@ public class CommentService implements ICommentService {
         }
         return results;
 	}
+	@Override
+	public List<CommentDTO> findAllByStatus(Pageable pageable,Integer status) {
+		List<CommentDTO> results = new ArrayList<>();
+		List<CommentEntity> entities = commentRepository.findAllByStatus(pageable,status).getContent();
+		for (CommentEntity item: entities) {
+			CommentDTO commentDTO = commentConverter.toDTO(item);
+			results.add(commentDTO);
+		}
+		return results;
+	}
 
 	@Override
 	public CommentDTO findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		CommentEntity entity= commentRepository.findById(id).get();
+		return commentConverter.toDTO(entity);
+
 	}
 
 }

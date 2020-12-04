@@ -2,8 +2,6 @@ import React ,{ useState, useEffect } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm,
   CFormGroup,
   CFormText,
-  CValidFeedback,
-  CInvalidFeedback,
   CTextarea,
   CInput,
   CLabel,
@@ -51,11 +49,14 @@ useEffect(() => {
     if(id !== '-1'){
     UserService.retrieveUser(id).then((response) => {
       console.log(response.data);
+      let temp=[];
       response.data.role.map((item)=>{
        selectedCheckboxes.push({value:item.code,label:item.name})
+       temp.push(item.code)
+
        return null
       })
-
+      setSelectedValue(temp)
       setData(response.data);
     })
   }
@@ -77,8 +78,7 @@ useEffect(() => {
       status:values.status?values.status:1,
       roleCode:selectedValue
     }
-
-
+    console.log(todo)
     if(id==='-1'){
       UserService.createUser(todo)
      .then(() => props.history.push("/admin/users"))
@@ -268,10 +268,10 @@ useEffect(() => {
                     <Select
                       closeMenuOnSelect={false}
                       components={animatedComponents}
-                      defaultValue={selectedCheckboxes}
+                       defaultValue={selectedCheckboxes}
                        onChange={(e)=>handleSelectChange(e)}
                       isMulti
-                      isClearable
+
                       options={items}
                     />
                   </CCol>
@@ -282,7 +282,7 @@ useEffect(() => {
             </CCardBody>
             <CCardFooter>
               <CButton className="" type="submit" size="sm" color="primary"><CIcon name="cil-scrubber" /> Submit</CButton>
-              <CButton type="reset" size="sm" color="danger"><CIcon name="cil-ban" /> Reset</CButton>
+              
             </CCardFooter>
             </CForm>
           </CCard>

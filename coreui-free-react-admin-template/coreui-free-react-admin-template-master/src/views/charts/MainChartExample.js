@@ -29,9 +29,7 @@ const MainChartExample = attributes => {
     });
     setLabel(labeltemp);
     })
-    .catch((err)=>{
-      alert(err.message);
-    });
+    
   }
 
   const defaultDatasets = (()=>{
