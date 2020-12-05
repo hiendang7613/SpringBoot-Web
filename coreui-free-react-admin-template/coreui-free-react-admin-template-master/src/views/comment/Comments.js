@@ -50,6 +50,7 @@ const Comments = () => {
         id:`${row.id}`,
         comment:`${row.content}`,
         newId:`${row.newId}`,
+        status:`${row.status}`,
         registered:`${moment(row.createdDate).format("YYYY-MM-DD")}`,
 
       }

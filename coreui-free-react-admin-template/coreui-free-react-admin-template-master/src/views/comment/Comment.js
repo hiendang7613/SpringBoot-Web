@@ -70,7 +70,7 @@ useEffect(() => {
       <CCol lg={6}>
         <CCard>
           <CCardHeader>
-            Category id: {id}
+            Comment id: {id}
           </CCardHeader>
           <CCardBody>
               <table className="table table-striped table-hover">
