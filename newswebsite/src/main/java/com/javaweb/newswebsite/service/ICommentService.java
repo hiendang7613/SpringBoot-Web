@@ -9,7 +9,8 @@ import com.javaweb.newswebsite.dto.CommentDTO;
 public interface ICommentService {
 	CommentDTO save(CommentDTO commentDto);
 	void delete(Long[] ids);
-	List<CommentDTO> findALL(Pageable pageable);
+	List<CommentDTO> findAll(Pageable pageable);
 	CommentDTO findById(Long id);
+	List<CommentDTO> findAllByStatus(Pageable pageable,Integer status);
 
 }

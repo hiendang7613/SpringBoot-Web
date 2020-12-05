@@ -33,7 +33,18 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "roleid"))
     private List<RoleEntity> roles = new ArrayList<>();
 
-	public String getUserName() {
+    @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList;
+
+    public List<CommentEntity> getCommentEntityList() {
+        return commentEntityList;
+    }
+
+    public void setCommentEntityList(List<CommentEntity> commentEntityList) {
+        this.commentEntityList = commentEntityList;
+    }
+
+    public String getUserName() {
         return userName;
     }
 

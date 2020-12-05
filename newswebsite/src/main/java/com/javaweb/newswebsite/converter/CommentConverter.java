@@ -36,7 +36,8 @@ public class CommentConverter {
 		commentDto.setModifiedDate(entity.getModifiedDate());
 		commentDto.setContent(entity.getContent());
 		commentDto.setStatus(entity.getStatus());
-		commentDto.setNewCode(newEntity.getId());
+		commentDto.setLikes(entity.getLikes());
+		commentDto.setNewId(newEntity.getId());
 		List<CommentChildDTO> commentchildDTOS = new ArrayList<CommentChildDTO>();
 		if(entity.getNewEntity() != null) {
 			for(CommentChildEntity commentchildEntity: entity.getCommentChilds()) {
@@ -50,6 +51,8 @@ public class CommentConverter {
 	public CommentEntity toEntity(CommentDTO dto, CommentEntity entity) {
 		entity.setContent(dto.getContent());
 		entity.setStatus(dto.getStatus());
+		entity.setLikes(dto.getLikes());
+
 		return entity;
 	}
 }

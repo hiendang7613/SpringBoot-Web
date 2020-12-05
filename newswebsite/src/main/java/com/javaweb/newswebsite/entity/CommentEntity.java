@@ -23,7 +23,20 @@ public class CommentEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "commentEntity")
     private List<CommentChildEntity> commentChilds=new ArrayList<>();
-    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid")
+    private UserEntity userEntity;
+
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
     public List<CommentChildEntity> getCommentChilds() {
 		return commentChilds;
 	}

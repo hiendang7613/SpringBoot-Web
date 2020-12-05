@@ -5,8 +5,10 @@ import java.util.List;
 public class CommentDTO extends AbstractDTO<CommentDTO> {
 	private String content;
 	private String status;
-	private Long newCode;
+	private Long likes;
+	private Long newId;
 	private List<CommentChildDTO> commentchild;
+
 	
 	public List<CommentChildDTO> getCommentchild() {
 		return commentchild;
@@ -14,12 +16,23 @@ public class CommentDTO extends AbstractDTO<CommentDTO> {
 	public void setCommentchild(List<CommentChildDTO> commentchild) {
 		this.commentchild = commentchild;
 	}
-	public Long getNewCode() {
-		return newCode;
+
+	public Long getLikes() {
+		return likes;
 	}
-	public void setNewCode(Long newCode) {
-		this.newCode = newCode;
+
+	public void setLikes(Long likes) {
+		this.likes = likes;
 	}
+
+	public Long getNewId() {
+		return newId;
+	}
+
+	public void setNewId(Long newId) {
+		this.newId = newId;
+	}
+
 	public String getContent() {
 		return content;
 	}
